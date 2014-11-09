@@ -1,0 +1,1 @@
+It is working Ralph with mini map, right now miniMap is Dota map, but I will change it tomorrow.
