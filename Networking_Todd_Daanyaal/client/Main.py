@@ -43,7 +43,7 @@ class Main(DirectObject):
     
     def menu(self, task):
         # Accept raw_input choice
-        choice = input("1 - Rand int\n2 - Rand string\n3 - Rand short\n4 - Rand float\n6 - Exit\n")
+        choice = input("1 - Rand int\n2 - Rand string\n3 - Rand short\n4 - Rand float\n201 - login\n6 - Exit\n")
         
         msg = 0
         
@@ -51,6 +51,7 @@ class Main(DirectObject):
         elif choice is 2: msg = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz') for x in range(7))
         elif choice is 3: msg = random.randint(0, 2**16 - 1)
         elif choice is 4: msg = 100 * random.random()
+        elif choice is 201: msg = "jeff kiyo"
         elif choice is 6: sys.exit()
         else: print "Invalid input"
         
