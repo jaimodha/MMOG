@@ -4,6 +4,7 @@ from net.response.ResponseRandomInt import ResponseRandomInt
 from net.response.ResponseRandomString import ResponseRandomString
 from net.response.ResponseRandomShort import ResponseRandomShort
 from net.response.ResponseRandomFloat import ResponseRandomFloat
+from net.response.ResponseLogin import ResponseLogin
 
 class ServerResponseTable:
     """
@@ -18,6 +19,7 @@ class ServerResponseTable:
         self.add(Constants.RAND_STRING, 'ResponseRandomString')
         self.add(Constants.RAND_SHORT, 'ResponseRandomShort')
         self.add(Constants.RAND_FLOAT, 'ResponseRandomFloat')
+        self.add(Constants.CMSG_AUTH, 'ResponseLogin')
 
     def add(self, constant, name):
         """Map a numeric response code with the name of an existing response module."""
