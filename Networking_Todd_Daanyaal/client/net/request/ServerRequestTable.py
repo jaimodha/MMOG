@@ -4,6 +4,7 @@ from net.request.RequestRandomInt import RequestRandomInt
 from net.request.RequestRandomString import RequestRandomString
 from net.request.RequestRandomShort import RequestRandomShort
 from net.request.RequestRandomFloat import RequestRandomFloat
+from net.request.RequestLogin import RequestLogin
 
 class ServerRequestTable:
     """
@@ -18,6 +19,7 @@ class ServerRequestTable:
         self.add(Constants.RAND_STRING, 'RequestRandomString')
         self.add(Constants.RAND_SHORT, 'RequestRandomShort')
         self.add(Constants.RAND_FLOAT, 'RequestRandomFloat')
+        self.add(Constants.CMSG_AUTH, 'RequestLogin')
 
     def add(self, constant, name):
         """Map a numeric request code with the name of an existing request module."""
