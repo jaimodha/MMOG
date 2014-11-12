@@ -46,16 +46,23 @@ class Main(DirectObject):
         choice = input("1 - Rand int\n2 - Rand string\n3 - Rand short\n4 - Rand float\n101 - login\n6 - Exit\n")
         
         msg = 0
+        username = 0
+        password = 0
         
         if choice is 1: msg = random.randint(-(2**16), 2**16 - 1)
         elif choice is 2: msg = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz') for x in range(7))
         elif choice is 3: msg = random.randint(0, 2**16 - 1)
         elif choice is 4: msg = 100 * random.random()
-        elif choice is 101: msg = "jeff kiyo"
+        elif choice is 101: 
+        	username = "user"
+        	password = "pass"
         elif choice is 6: sys.exit()
         else: print "Invalid input"
         
-        self.cManager.sendRequest(choice, msg);
+        if choice is 101:
+        	self.cManager.sendRequest(choice, username, password)
+        else:
+        	self.cManager.sendRequest(choice, msg);
         
         return task.again
 
