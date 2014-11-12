@@ -7,13 +7,12 @@ from net.request.ServerRequest import ServerRequest
 class RequestLogin(ServerRequest):
 
 
-    def send(self, username = None, password = None):
+    def send(self, username = None):
 
         try:
             pkg = PyDatagram()
             pkg.addUint16(Constants.CMSG_AUTH)
             pkg.addString(username)
-            pkg.addString(password)
 
             self.cWriter.send(pkg, self.connection)
 
