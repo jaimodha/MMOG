@@ -60,7 +60,7 @@ class Main(DirectObject):
         else: print "Invalid input"
         
         if choice is 101:
-        	self.cManager.sendRequest(choice, username, password)
+        	self.cManager.sendRequest(choice, username+" "+password)
         else:
         	self.cManager.sendRequest(choice, msg);
         
