@@ -5,13 +5,12 @@ import java.util.ArrayList;
 public class NPCModel {
 	
     int npcid;
-	String npcname;
 	double xpos;
 	double ypos;
 	double zpos;
 	double h;
-	double p;
-	double r;
+	int teamid;
+	
 	
 	ArrayList<NPCModel> npclist;
 	
@@ -26,14 +25,6 @@ public class NPCModel {
 
 	public void setNpcid(int npcid) {
 		this.npcid = npcid;
-	}
-
-	public String getNpcname() {
-		return npcname;
-	}
-
-	public void setNpcname(String npcname) {
-		this.npcname = npcname;
 	}
 
 	public double getXpos() {
@@ -59,7 +50,6 @@ public class NPCModel {
 	public void setZpos(double zpos) {
 		this.zpos = zpos;
 	}
-	
 
 	public double getH() {
 		return h;
@@ -69,20 +59,12 @@ public class NPCModel {
 		this.h = h;
 	}
 
-	public double getP() {
-		return p;
+	public int getTeamid() {
+		return teamid;
 	}
 
-	public void setP(double p) {
-		this.p = p;
-	}
-
-	public double getR() {
-		return r;
-	}
-
-	public void setR(double r) {
-		this.r = r;
+	public void setTeamid(int teamid) {
+		this.teamid = teamid;
 	}
 
 	public ArrayList<NPCModel> getNpclist() {
@@ -92,6 +74,7 @@ public class NPCModel {
 	public void setNpclist(ArrayList<NPCModel> npclist) {
 		this.npclist = npclist;
 	}
+
 	
 	
 

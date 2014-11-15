@@ -4,37 +4,35 @@ import java.util.ArrayList;
 
 public class CharacterModel {
 	
-	int u_id;
+	String username;
 	int c_id;
 	String name;
 	String ctype;
 	int rewardpoint;
  	int hitpoint;
 	int movementspeed;
-    ArrayList<SkillModel> s;
+	int skill;
 	double xpos;
 	double ypos;
 	double zpos;
 	double h;
-	double p;
-	double r;
-	int teamid;
+	String teamid;
 	int movement;
+	boolean IsAttacking;
 	
 	ArrayList<CharacterModel> cmlist;
 	
 	public CharacterModel()
 	{
 		cmlist = new ArrayList<CharacterModel>();
-		s = new ArrayList<SkillModel>();
 	}
 
-	public int getU_id() {
-		return u_id;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setU_id(int u_id) {
-		this.u_id = u_id;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public int getC_id() {
@@ -85,12 +83,12 @@ public class CharacterModel {
 		this.movementspeed = movementspeed;
 	}
 
-	public ArrayList<SkillModel> getS() {
-		return s;
+	public int getSkill() {
+		return skill;
 	}
 
-	public void setS(ArrayList<SkillModel> s) {
-		this.s = s;
+	public void setSkill(int skill) {
+		this.skill = skill;
 	}
 
 	public double getXpos() {
@@ -125,27 +123,11 @@ public class CharacterModel {
 		this.h = h;
 	}
 
-	public double getP() {
-		return p;
-	}
-
-	public void setP(double p) {
-		this.p = p;
-	}
-
-	public double getR() {
-		return r;
-	}
-
-	public void setR(double r) {
-		this.r = r;
-	}
-
-	public int getTeamid() {
+	public String getTeamid() {
 		return teamid;
 	}
 
-	public void setTeamid(int teamid) {
+	public void setTeamid(String teamid) {
 		this.teamid = teamid;
 	}
 
@@ -157,6 +139,14 @@ public class CharacterModel {
 		this.movement = movement;
 	}
 
+	public boolean isIsAttacking() {
+		return IsAttacking;
+	}
+
+	public void setIsAttacking(boolean isAttacking) {
+		IsAttacking = isAttacking;
+	}
+
 	public ArrayList<CharacterModel> getCmlist() {
 		return cmlist;
 	}
@@ -164,7 +154,7 @@ public class CharacterModel {
 	public void setCmlist(ArrayList<CharacterModel> cmlist) {
 		this.cmlist = cmlist;
 	}
-	
+
 	
 	
 	
