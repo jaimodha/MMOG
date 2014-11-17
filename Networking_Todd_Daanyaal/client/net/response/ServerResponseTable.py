@@ -20,6 +20,7 @@ class ServerResponseTable:
         self.add(Constants.RAND_SHORT, 'ResponseRandomShort')
         self.add(Constants.RAND_FLOAT, 'ResponseRandomFloat')
         self.add(Constants.CMSG_AUTH, 'ResponseLogin')
+        self.add(Constants.CMSG_CREATE_CHARACTER,'ResponseCreateCharacter')
 
     def add(self, constant, name):
         """Map a numeric response code with the name of an existing response module."""
