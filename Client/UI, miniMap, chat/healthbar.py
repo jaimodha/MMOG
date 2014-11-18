@@ -1,3 +1,7 @@
+from pandac.PandaModules import CardMaker
+from pandac.PandaModules import NodePath
+
+
 class HealthBar(NodePath): 
         def __init__(self, scale=1, value=1, r=1, g=0, b=0): 
                 NodePath.__init__(self, 'healthbar') 
