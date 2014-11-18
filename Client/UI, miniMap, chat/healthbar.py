@@ -9,18 +9,11 @@ class HealthBar(NodePath):
                 cmfg.setFrame(- scale,  scale, -0.1 * scale, 0.1 * scale) 
                 self.fg = self.attachNewNode(cmfg.generate()) 
 
-              
-
                 self.fg.setColor(r, g, b, 1) 
-            
                 self.fg.setPos(1.5,0,5.8)
-            
-
-
                 self.setValue(value) 
 
         def setValue(self, value):
                 value = min(max(0, value), 1) 
                 self.fg.setScale(value * self.scale, 0, self.scale) 
-           
                 self.fg.setX((value - 1) * self.scale * self.scale)
