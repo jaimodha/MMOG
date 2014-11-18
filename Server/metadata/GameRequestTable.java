@@ -1,7 +1,13 @@
 package metadata;
 
 // Java Imports
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
 
 // Custom Imports
 import networking.request.GameRequest;
@@ -20,15 +26,21 @@ public class GameRequestTable {
     public static void init() {
         requestNames = new HashMap<Short, Class>();
 
+        
+     // Call the request methods from here by the data coming from text file "demo.txt"  
+        
         // Populate the hash map using request codes and class names
-        /*add(Constants.CMSG_AUTH, "RequestLogin");
+        add(Constants.CMSG_AUTH, "RequestLogin");
+        add(Constants.CMSG_DISCONNECT, "RequestLogout");
+        add(Constants.CMSG_REGISTER, "RequestRegister");
+        add(Constants.CMSG_CREATE_CHARACTER, "RequestCreateCharacter");
         add(Constants.CMSG_CHAT, "RequestChat");
-        add(Constants.CMSG_HEARTBEAT, "RequestHeartbeat");
-        add(Constants.CMSG_SAVE_EXIT_GAME, "RequestExitGame");*/
-        add(Constants.RAND_INT, "RequestInt");
-        add(Constants.RAND_STRING, "RequestString");
-        add(Constants.RAND_SHORT, "RequestShort");
-        add(Constants.RAND_FLOAT, "RequestFloat");
+        add(Constants.CMSG_MOVE, "RequestMove");
+        add(Constants.CMSG_ATTACK, "RequestAttack");
+        add(Constants.CMSG_HEALTH, "RequestHealth");
+        add(Constants.CMSG_CONTROL_POINT_STATE, "RequestControlPointState");
+        add(Constants.CMSG_CONTROL_POINT_CAP, "RequestControlPointCap");
+        add(Constants.REQ_HEARTBEAT, "RequestHeartbeat");
     }
 
     /**
