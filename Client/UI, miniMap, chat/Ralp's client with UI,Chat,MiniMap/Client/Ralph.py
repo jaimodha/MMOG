@@ -1,0 +1,438 @@
+# Author: Ryan Myers
+# Models: Jeff Styers, Reagan Heller
+
+
+# Last Updated: 6/13/2005
+#
+# This tutorial provides an example of creating a character
+# and having it walk around on uneven terrain, as well
+# as implementing a fully rotatable camera.
+
+import direct.directbase.DirectStart
+from panda3d.core import CollisionTraverser,CollisionNode
+from panda3d.core import CollisionHandlerQueue,CollisionRay
+from panda3d.core import Filename,AmbientLight,DirectionalLight
+from panda3d.core import PandaNode,NodePath,Camera,TextNode
+from panda3d.core import Vec3,Vec4,BitMask32
+from direct.gui.OnscreenText import OnscreenText
+from direct.gui.OnscreenImage import OnscreenImage
+from direct.gui.DirectGui import DirectWaitBar
+from direct.gui.DirectGui import *
+from direct.actor.Actor import Actor
+from direct.showbase.DirectObject import DirectObject
+import random, sys, os, math
+#from Ribbon import Ribbon
+from net.ConnectionManager import ConnectionManager
+from common.Constants import Constants
+from Queue import Queue
+import __builtin__
+
+SPEED = 0.5
+username = ""
+faction=0
+
+# Function to put instructions on the screen.
+def addInstructions(pos, msg):
+    return OnscreenText(text=msg, style=1, fg=(1,1,1,1),
+                        pos=(-1.3, pos), align=TextNode.ALeft, scale = .05)
+
+# Function to put title on the screen.
+def addTitle(text):
+    return OnscreenText(text=text, style=1, fg=(1,1,1,1),
+                        pos=(1.3,-0.95), align=TextNode.ARight, scale = .07)
+
+class World(DirectObject):
+
+    def __init__(self, username, faction):
+        #create Queue to hold the incoming chat
+        #request the heartbeat so that the caht interface is being refreshed in order to get the message from other player
+        #---------------------
+        __builtin__.main = self
+        self.msgQ = Queue()
+        taskMgr.doMethodLater(2, self.refresh, 'Heartbeat')
+        #----------------------
+        self.keyMap = {"left":0, "right":0, "forward":0, "cam-left":0, "cam-right":0, "charge":0}
+        base.win.setClearColor(Vec4(0,0,0,1))
+
+        self.cManager = ConnectionManager()
+        self.cManager.startConnection()
+       
+        
+        
+        #send dummy login info of the particular client
+        #send first chat info 
+        #---------------------------------------
+        self.userName = username
+        dummy_login ={'user_id' : self.userName, 'factionId': faction, 'password': '1234'}
+        self.cManager.sendRequest(Constants.RAND_STRING, dummy_login)
+        
+        
+        chat = { 'userName' : self.userName,     #username
+                 'message'    : '-------Login------' }
+        self.cManager.sendRequest(Constants.CMSG_CHAT, chat)
+
+        #--------------------------------------
+        #self.minimap = OnscreenImage(image="images/minimap.png", scale=(0.2,1,0.2), pos=(-1.1,0,0.8))
+
+        #frame = DirectFrame(text="Resource Bar", scale=0.001)
+
+        resource_bar = DirectWaitBar(text="",
+            value=35, range=100, pos=(0,0,0.9), barColor=(255,255,0,1),
+            frameSize=(-0.3,0.3,0,0.03))
+        cp_bar = DirectWaitBar(text="",
+            value=70, range=100, pos=(1.0,0,0.9), barColor=(0,0,255,1),
+            frameSize=(-0.3,0.3,0,0.03), frameColor=(255,0,0,1))
+
+        # Set up the environment
+        #
+        # This environment model contains collision meshes.  If you look
+        # in the egg file, you will see the following:
+        #
+        #    <Collide> { Polyset keep descend }
+        #
+        # This tag causes the following mesh to be converted to a collision
+        # mesh -- a mesh which is optimized for collision, not rendering.
+        # It also keeps the original mesh, so there are now two copies ---
+        # one optimized for rendering, one for collisions.  
+
+        #chat interface--------------------------------------
+        #----------------------------------------------------
+        #Button array
+        self.messageList = []
+        #set different color depend on their username
+        
+        self.numMessage = -1
+        self.currentCanvasHeight = 0
+        #scroll frame
+        self.chatFrame = DirectScrolledFrame(
+                                             pos=(-2*.5,0,.55*.5),
+                                             relief= DGG.GROOVE,
+                                             borderWidth=(.01,.01),
+                                             frameColor=(1,1,1,.25),
+                                             canvasSize = (-.33,.506,-2,2), 
+                                             frameSize = (-.33,.5,-1.15,-.7),
+                                             manageScrollBars=False,
+                                             autoHideScrollBars=True,
+                                             verticalScroll_resizeThumb=False,
+                                             verticalScroll_thumb_frameSize=(0,.01,-.01,0),
+                                             scrollBarWidth=0.04)
+        #self.chatFrame.destroycomponent('horizontalScroll')
+        self.verticalScroll = self.chatFrame.component('verticalScroll')
+        self.verticalScroll['scrollSize'] = .5*0.005
+
+        self.chatBox=self.chatFrame.getCanvas().attachNewNode('myCanvas')
+        #input frame
+        self.chatInput = DirectEntry(text = "" ,scale=.05,command=self.sendMessage,
+                                    numLines = 2,focus=1, width=16.5,
+                                    frameColor=(1,1,1,0.35),focusInCommand=self.clearText,
+                                    borderWidth=(.01,.01),
+                                    text_fg=(1,1,0,1))
+        self.chatInput.setPos(-1.33,0,-.93)
+
+        #end chat interface
+
+        #----------------------------------------------------
+        #----------------------------------------------------
+
+        self.environ = loader.loadModel("models/world")      
+        self.environ.reparentTo(render)
+        self.environ.setPos(0,0,0)
+        
+        # Create the main character, Ralph
+
+        ralphStartPos = self.environ.find("**/start_point").getPos()
+        self.ralph = Actor("models/ralph",
+                                 {"run":"models/ralph-run",
+                                  "walk":"models/ralph-walk"})
+        self.ralph.reparentTo(render)
+        self.ralph.setScale(.2)
+        self.ralph.setPos(ralphStartPos)
+
+        nameplate = TextNode('textNode username_' + str("Ralph"))
+        nameplate.setText("Ralph")
+        npNodePath = self.ralph.attachNewNode(nameplate)
+        npNodePath.setScale(0.8)
+        npNodePath.setBillboardPointEye()
+        #npNodePath.setPos(1.0,0,6.0)
+        npNodePath.setZ(6.5)
+
+        bar = DirectWaitBar(value=100, scale=1.0)
+        bar.setColor(255,0,0)
+        #bar.setBarRelief()
+        bar.setZ(6.0)
+        bar.setBillboardPointEye()
+        bar.reparentTo(self.ralph)
+
+        # Create a floater object.  We use the "floater" as a temporary
+        # variable in a variety of calculations.
+        
+        self.floater = NodePath(PandaNode("floater"))
+        self.floater.reparentTo(render)
+
+        # Accept the control keys for movement and rotation
+
+        self.accept("escape", sys.exit)
+        self.accept("arrow_left", self.setKey, ["left",1])
+        self.accept("arrow_right", self.setKey, ["right",1])
+        self.accept("arrow_up", self.setKey, ["forward",1])
+        self.accept("a", self.setKey, ["cam-left",1])
+        self.accept("s", self.setKey, ["cam-right",1])
+        self.accept("arrow_left-up", self.setKey, ["left",0])
+        self.accept("arrow_right-up", self.setKey, ["right",0])
+        self.accept("arrow_up-up", self.setKey, ["forward",0])
+        self.accept("a-up", self.setKey, ["cam-left",0])
+        self.accept("s-up", self.setKey, ["cam-right",0])
+        self.accept("c", self.setKey, ["charge",1])
+        self.accept("c-up", self.setKey, ["charge",0])
+
+        taskMgr.add(self.move,"moveTask")
+
+        # Game state variables
+        self.isMoving = False
+
+        # Set up the camera
+        
+        base.disableMouse()
+        base.camera.setPos(self.ralph.getX(),self.ralph.getY()+10,2)
+        
+        # We will detect the height of the terrain by creating a collision
+        # ray and casting it downward toward the terrain.  One ray will
+        # start above ralph's head, and the other will start above the camera.
+        # A ray may hit the terrain, or it may hit a rock or a tree.  If it
+        # hits the terrain, we can detect the height.  If it hits anything
+        # else, we rule that the move is illegal.
+
+        self.cTrav = CollisionTraverser()
+
+        self.ralphGroundRay = CollisionRay()
+        self.ralphGroundRay.setOrigin(0,0,1000)
+        self.ralphGroundRay.setDirection(0,0,-1)
+        self.ralphGroundCol = CollisionNode('ralphRay')
+        self.ralphGroundCol.addSolid(self.ralphGroundRay)
+        self.ralphGroundCol.setFromCollideMask(BitMask32.bit(0))
+        self.ralphGroundCol.setIntoCollideMask(BitMask32.allOff())
+        self.ralphGroundColNp = self.ralph.attachNewNode(self.ralphGroundCol)
+        self.ralphGroundHandler = CollisionHandlerQueue()
+        self.cTrav.addCollider(self.ralphGroundColNp, self.ralphGroundHandler)
+
+        self.camGroundRay = CollisionRay()
+        self.camGroundRay.setOrigin(0,0,1000)
+        self.camGroundRay.setDirection(0,0,-1)
+        self.camGroundCol = CollisionNode('camRay')
+        self.camGroundCol.addSolid(self.camGroundRay)
+        self.camGroundCol.setFromCollideMask(BitMask32.bit(0))
+        self.camGroundCol.setIntoCollideMask(BitMask32.allOff())
+        self.camGroundColNp = base.camera.attachNewNode(self.camGroundCol)
+        self.camGroundHandler = CollisionHandlerQueue()
+        self.cTrav.addCollider(self.camGroundColNp, self.camGroundHandler)
+
+        # Uncomment this line to see the collision rays
+        #self.ralphGroundColNp.show()
+        #self.camGroundColNp.show()
+       
+        # Uncomment this line to show a visual representation of the 
+        # collisions occuring
+        #self.cTrav.showCollisions(render)
+        
+        # Create some lighting
+        ambientLight = AmbientLight("ambientLight")
+        ambientLight.setColor(Vec4(.3, .3, .3, 1))
+        directionalLight = DirectionalLight("directionalLight")
+        directionalLight.setDirection(Vec3(-5, -5, -5))
+        directionalLight.setColor(Vec4(1, 1, 1, 1))
+        directionalLight.setSpecularColor(Vec4(1, 1, 1, 1))
+        render.setLight(render.attachNewNode(ambientLight))
+        render.setLight(render.attachNewNode(directionalLight))
+    
+        
+ 
+    #get all the message from pther player----------------------------------------------
+    #----------------------------------------------------
+    def refresh(self,task):
+        self.cManager.sendRequest(Constants.CMSG_HEARTBEAT)
+        return task.again
+
+    def clearText(self):
+        self.chatInput.enterText('')
+         
+    #this being called from responseChat, it will add the message to the queue
+    def putToChatQ(self, username, message):
+        self.msgQ.put({'userName' : username,'message' : message})
+        #print self.msgQ.qsize()
+        while not self.msgQ.empty():
+            event = self.msgQ.get()
+            self.addMessage(event['userName'],event['message'])
+            self.msgQ.task_done()
+    
+    #add message to the scrolled frame
+    def addMessage(self,username,msg):
+        newMessage = DirectButton(parent = self.chatBox,
+                                  scale = .055,
+                                  pos = (0,0,self.currentCanvasHeight),
+                                  relief = None,
+                                  pad=(0,0),
+                                  borderWidth=(0.01,0.01),
+                                  text = username+'>> '+msg,            #text
+                                  text_wordwrap = 15,
+                                  text_align = TextNode.ALeft,          
+                                  text_fg=(1,0,1,1),                 #change color here
+                                  enableEdit = False,
+                                  suppressMouse = False)
+        if username == self.userName:
+            newMessage["text_fg"]=(1,1,0,1)
+        self.messageList.append(newMessage)
+        self.numMessage += 1
+        self.updateCanvasHeight()
+        # Scroll till the last line.
+        self.chatFrame['verticalScroll_value'] = 1
+        #create packet to send 
+
+    #this medthod is called when the user press enter after they type something
+    def sendMessage(self, textMessage):
+        chat = { 'userName' : self.userName,     #username
+                 'message'    : textMessage }
+        self.cManager.sendRequest(Constants.CMSG_CHAT, chat)
+        self.clearText()
+        #clear scrollframe context and attach the frame again
+        #self.chatBox.removeNode()
+        #self.chatBox=self.chatFrame.getCanvas().attachNewNode('myCanvas')
+        
+        #self.addMessage()
+        
+    def updateCanvasHeight(self):
+        self.updateMessages()
+        self.chatFrame['canvasSize'] = (0,1.2,self.currentCanvasHeight,0)
+
+    def updateMessages(self):
+        messageSpacing = -0.07
+
+        for i in range(0,self.numMessage+1):
+            self.messageList[i].setZ(messageSpacing)
+            l,r,b,t = self.messageList[i].getBounds()
+            messageSpacing += (b-t)*0.07
+
+        self.currentCanvasHeight = messageSpacing
+    #end chat 
+    #----------------------------------------------------
+    #----------------------------------------------------
+
+    #Records the state of the arrow keys
+    def setKey(self, key, value):
+        self.keyMap[key] = value
+    
+
+    # Accepts arrow keys to move either the player or the menu cursor,
+    # Also deals with grid checking and collision detection
+    def move(self, task):
+
+        # If the camera-left key is pressed, move camera left.
+        # If the camera-right key is pressed, move camera right.
+
+        base.camera.lookAt(self.ralph)
+        if (self.keyMap["cam-left"]!=0):
+            base.camera.setX(base.camera, -20 * globalClock.getDt())
+        if (self.keyMap["cam-right"]!=0):
+            base.camera.setX(base.camera, +20 * globalClock.getDt())
+
+        # save ralph's initial position so that we can restore it,
+        # in case he falls off the map or runs into something.
+
+        startpos = self.ralph.getPos()
+
+        # If a move-key is pressed, move ralph in the specified direction.
+
+        if (self.keyMap["left"]!=0):
+            self.ralph.setH(self.ralph.getH() + 300 * globalClock.getDt())
+        if (self.keyMap["right"]!=0):
+            self.ralph.setH(self.ralph.getH() - 300 * globalClock.getDt())
+        if (self.keyMap["forward"]!=0):
+            self.ralph.setY(self.ralph, -25 * globalClock.getDt())
+        if (self.keyMap["charge"]!=0):
+            self.ralph.setY(self.ralph, -250 * globalClock.getDt())
+            #ribbon = Ribbon(self.ralph, Vec4(1,1,1,1), 3, 10, 0.3)
+            #ribbon.getRoot().setZ(2.0)
+
+        # If ralph is moving, loop the run animation.
+        # If he is standing still, stop the animation.
+
+        if (self.keyMap["forward"]!=0) or (self.keyMap["charge"]!=0) or (self.keyMap["left"]!=0) or (self.keyMap["right"]!=0):
+            if self.isMoving is False:
+                self.ralph.loop("run")
+                self.isMoving = True
+        else:
+            if self.isMoving:
+                self.ralph.stop()
+                self.ralph.pose("walk",5)
+                self.isMoving = False
+
+        # If the camera is too far from ralph, move it closer.
+        # If the camera is too close to ralph, move it farther.
+
+        camvec = self.ralph.getPos() - base.camera.getPos()
+        camvec.setZ(0)
+        camdist = camvec.length()
+        camvec.normalize()
+        if (camdist > 10.0):
+            base.camera.setPos(base.camera.getPos() + camvec*(camdist-10))
+            camdist = 10.0
+        if (camdist < 5.0):
+            base.camera.setPos(base.camera.getPos() - camvec*(5-camdist))
+            camdist = 5.0
+
+        # Now check for collisions.
+
+        self.cTrav.traverse(render)
+
+        # Adjust ralph's Z coordinate.  If ralph's ray hit terrain,
+        # update his Z. If it hit anything else, or didn't hit anything, put
+        # him back where he was last frame.
+
+        entries = []
+        for i in range(self.ralphGroundHandler.getNumEntries()):
+            entry = self.ralphGroundHandler.getEntry(i)
+            entries.append(entry)
+        entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
+                                     x.getSurfacePoint(render).getZ()))
+        if (len(entries)>0) and (entries[0].getIntoNode().getName() == "terrain"):
+            self.ralph.setZ(entries[0].getSurfacePoint(render).getZ())
+        else:
+            self.ralph.setPos(startpos)
+
+        # Keep the camera at one foot above the terrain,
+        # or two feet above ralph, whichever is greater.
+        
+        entries = []
+        for i in range(self.camGroundHandler.getNumEntries()):
+            entry = self.camGroundHandler.getEntry(i)
+            entries.append(entry)
+        entries.sort(lambda x,y: cmp(y.getSurfacePoint(render).getZ(),
+                                     x.getSurfacePoint(render).getZ()))
+        if (len(entries)>0) and (entries[0].getIntoNode().getName() == "terrain"):
+            base.camera.setZ(entries[0].getSurfacePoint(render).getZ()+1.0)
+        if (base.camera.getZ() < self.ralph.getZ() + 2.0):
+            base.camera.setZ(self.ralph.getZ() + 2.0)
+            
+        # The camera should look in ralph's direction,
+        # but it should also try to stay horizontal, so look at
+        # a floater which hovers above ralph's head.
+        
+        self.floater.setPos(self.ralph.getPos())
+        self.floater.setZ(self.ralph.getZ() + 2.0)
+        base.camera.lookAt(self.floater)
+
+        return task.cont
+
+        
+        
+username = raw_input("Enter User Name: ")
+print username
+faction = raw_input("Faction: (enter blue or red)\n")
+
+if faction == "blue":
+    faction = Constants.BLUE_TEAM
+else:
+    faction = Constants.RED_TEAM
+    
+w = World(username, faction)
+run()
+
