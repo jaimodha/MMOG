@@ -5,8 +5,7 @@ from net.response.ResponseRandomString import ResponseRandomString
 from net.response.ResponseRandomShort import ResponseRandomShort
 from net.response.ResponseRandomFloat import ResponseRandomFloat
 from net.response.ResponseLogin import ResponseLogin
-from net.response.ResponseRegister import ResponseRegister
-from net.response.ResponseCreateCharacter import ResponseCreateCharacter
+
 
 class ServerResponseTable:
     """
@@ -22,9 +21,8 @@ class ServerResponseTable:
         self.add(Constants.RAND_SHORT, 'ResponseRandomShort')
         self.add(Constants.RAND_FLOAT, 'ResponseRandomFloat')
         self.add(Constants.CMSG_AUTH, 'ResponseLogin')
-        self.add(Constants.CMSG_REGISTER, 'ResponseRegister')
-        self.add(Constants.CMSG_CREATE_CHARACTER, "ResponseCreateCharacter")
-        self.add(Constants.CMSG_SELECT_CHARACTER, "ResponseSelectCharacter")
+        self.add(Constants.CMSG_CREATE_CHARACTER,'ResponseCreateCharacter')
+        
 
     def add(self, constant, name):
         """Map a numeric response code with the name of an existing response module."""

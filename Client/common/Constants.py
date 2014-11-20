@@ -9,20 +9,16 @@ class Constants:
     SERVER_IP = 'localhost'
     SERVER_PORT = 9252
     DEBUG = True
-    
-    TEXT_ERROR_COLOR                    = (255, 0, 0, 1)
-    
     MSG_NONE                            = 0
     CMSG_AUTH                           = 101
     CMSG_DISCONNECT                     = 102
     CMSG_REGISTER                       = 103
     CMSG_CREATE_CHARACTER               = 104
-    CMSG_DELETE_CHARACTER               = 113
-    CMSG_SELECT_CHARACTER               = 114
     CMSG_CHAT                           = 105
     CMSG_MOVE                           = 106
     CMSG_ATTACK                         = 107
     CMSG_HEALTH                         = 108
+    
     CMSG_CONTROL_POINT_STATE            = 111
     CMSG_CONTROL_POINT_CAP              = 112
     REQ_HEARTBEAT                       = 301
