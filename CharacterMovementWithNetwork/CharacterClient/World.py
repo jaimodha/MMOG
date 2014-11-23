@@ -204,6 +204,7 @@ class World(DirectObject):
         px = self.player._character.getX()
         py = self.player._character.getY()
         h = self.player._character.getH()
+        p_team = self.player.get_team()
 
         rx=3
         ry=0
@@ -248,7 +249,7 @@ class World(DirectObject):
         ncy = cy/cl
 
         target = None
-        candidates=[]
+        candidates={}
         for name, other in self.characters.iteritems():
             tx = other._character.getX()
             ty = other._character.getY()
@@ -274,11 +275,12 @@ class World(DirectObject):
             d = self.distance(tx, ty, px, py)
 
             if angle<(fov/2) and d<self.player.ATK_RANGE:
-                #target=name
-                candidates.append(name)
+                if p_team != other.get_team():
+                    candidates[name]=d
 
             if candidates:
-                target = min(candidates)
+                target = min(candidates, key=candidates.get)
+
 
         return target
 
