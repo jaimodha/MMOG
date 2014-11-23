@@ -6,11 +6,11 @@ class Constants:
     RAND_SHORT                          = 3
     RAND_FLOAT                          = 4
 
-    CMSG_CHAT = 112;
-    SMSG_CHAT = 212;
+    CMSG_CHAT = 105;
+    SMSG_CHAT = 205;
 
-    CMSG_HEARTBEAT = 113;
-    SMSG_HEARTBEAT = 213;
+    CMSG_HEARTBEAT = 301;
+    SMSG_HEARTBEAT = 301;
 
     RED_TEAM = 10;
     BLUE_TEAM = 20;

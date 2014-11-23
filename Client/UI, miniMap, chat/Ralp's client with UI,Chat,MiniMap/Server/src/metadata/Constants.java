@@ -8,10 +8,10 @@ public class Constants {
     // Request (1xx) + Response (2xx)
     public final static short CMSG_AUTH = 101;
     public final static short SMSG_AUTH = 201;
-    public final static short CMSG_CHAT = 112;
-    public final static short SMSG_CHAT = 212;
-    public final static short CMSG_HEARTBEAT = 113;
-    public final static short SMSG_HEARTBEAT = 213;
+    public final static short CMSG_CHAT = 105;
+    public final static short SMSG_CHAT = 205;
+    public final static short CMSG_HEARTBEAT = 301;
+    public final static short SMSG_HEARTBEAT = 301;
     public final static short CMSG_SAVE_EXIT_GAME = 119;
     public final static short SMSG_SAVE_EXIT_GAME = 219;
     public final static short SMSG_CREATE_ENV = 329;
