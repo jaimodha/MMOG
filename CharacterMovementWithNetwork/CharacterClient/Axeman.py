@@ -74,8 +74,7 @@ class Axeman(Character):
             total_dmg *= 1.1
         elif self._atk_buff==2:
             total_dmg *= 1.25
-        # play animation 
-        #TODO: update with actual animation of the axe man 
+         
         self._character.play("special",fromFrame = 10)        
         return total_dmg
              
@@ -115,3 +114,19 @@ class Axeman(Character):
             Character.set_health(self, health-health_change)
             self.hb.setValue(Character.get_health(self)-health_change)
             self._character.play("hurt")
+
+    def animate(self, anim_type):
+        if anim_type==0:
+            self._character.loop("idle")
+        elif anim_type==1:
+            self._character.loop("walk")
+        elif anim_type==2:
+            self._character.loop("run")
+        elif anim_type==3:
+            self._character.play("attack")
+        elif anim_type==4:
+            self._character.play("special",fromFrame = 10)
+        elif anim_type==5:
+            self._character.play("hurt")
+        elif anim_type==6:
+            self._character.play("die")

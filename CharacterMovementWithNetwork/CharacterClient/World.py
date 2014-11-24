@@ -164,33 +164,16 @@ class World(DirectObject):
         self.cManager.sendRequest(Constants.CMSG_ATTACK, attack_id)
         target = self.find_target()
         print target
-        damage = self.player.basic_attack()
+        damage=0
+        if attack_id==3:
+            damage = self.player.basic_attack()
+        elif attack_id==4:
+            damage = self.player.special_attack()
         if target != None:
             hurt_interval = self.characters[target]._character.actorInterval("hurt")
             hurt_seq = Sequence(Wait(0.5), hurt_interval)
             hurt_seq.start()
             self.characters[target].take_damage(damage)
-        """
-        if attack_type==0:
-            target = self.find_target()
-            print target
-            damage = self.player.basic_attack()
-            if target != None:
-                hurt_interval = self.characters[target]._character.actorInterval("hurt")
-                hurt_seq = Sequence(Wait(0.5), hurt_interval)
-                hurt_seq.start()
-                self.characters[target].take_damage(damage)
-
-        elif attack_type==1:
-            target = self.find_target()
-            print target
-            damage = self.player.special_attack()
-            if target != None:
-                hurt_interval = self.characters[target]._character.actorInterval("hurt")
-                hurt_seq = Sequence(Wait(0.5), hurt_interval)
-                hurt_seq.start()
-                self.characters[target].take_damage(damage)
-        """
 
     def find_target(self):
         """

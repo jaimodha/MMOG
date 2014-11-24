@@ -42,12 +42,7 @@ class Swordsman(Character):
 
 		self.hb = HealthBar(1.5, value=Swordsman.MAX_HEALTH)
 		self.hb.reparentTo(self._character)
-
-	"""
-	Left to implement:
-	1) Properly animate starts and stops
-	2) Diagonal attack range calculations
-	"""
+		
 	def basic_attack(self):
 		total_dmg = Swordsman.BASIC_ATK_DMG
 		
@@ -127,7 +122,10 @@ class Swordsman(Character):
 			seq = Sequence(atk_interval1, atk_interval2)
 			seq.start()
 		elif anim_type==4:
-			self._character.play("special-attack")
+			atk_interval1 = self._character.actorInterval("attack", startFrame=1, endFrame=13)
+			atk_interval2 = self._character.actorInterval("attack", startFrame=38, endFrame=80)
+			seq = Sequence(atk_interval1, atk_interval2)
+			seq.start()
 		elif anim_type==5:
 			self._character.play("hurt")
 		elif anim_type==6:
