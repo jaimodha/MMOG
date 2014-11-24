@@ -9,13 +9,19 @@ class ResponseCharacterChangeHealth(ServerResponse):
 
         try:
             self.username = data.getString()
-            self.healthChange = data.getInt32()
+            self.healthChange = data.getInt32() #healthChange assumed to be damage so healing is negative
 
             #actions
-            if self.main.player.get_name == self.username:
-                        self.main.player.set_health(self.main.player.get_health - self.healthChange)
+            if self.healthChange > 0:
+                if self.main.player.get_name == self.username:
+                            self.main.player.take_damage(self.healthChange)
+                else:
+                            self.main.characters[username].take_damage(self.healthChange)
             else:
-                        self.main.characters[username].set_health(self.main.characters[username].get_health + self.healthChange)
+                if self.main.player.get_name == self.username:
+                            self.main.player.set_health(self.main.player.get_health - self.healthChange)
+                else:
+                            self.main.characters[username].set_health(self.main.characters[username].get_health - self.healthChange)
         except:
             self.log('Bad [' + str(Constants.SMGS_ATTACK) + '] Attack Response')
             print_exc()
