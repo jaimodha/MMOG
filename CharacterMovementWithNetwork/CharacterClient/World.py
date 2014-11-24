@@ -171,10 +171,6 @@ class World(DirectObject):
             damage = self.player.special_attack()
         if target != None:
             self.cManager.sendRequest(Constants.CMSG_HEALTH, [target, damage])
-            hurt_interval = self.characters[target]._character.actorInterval("hurt")
-            hurt_seq = Sequence(Wait(0.5), hurt_interval)
-            hurt_seq.start()
-            self.characters[target].take_damage(damage)
 
     def find_target(self):
         """
@@ -258,7 +254,7 @@ class World(DirectObject):
             d = self.distance(tx, ty, px, py)
 
             if angle<(fov/2) and d<self.player.ATK_RANGE:
-                if p_team != other.get_team():
+                if (p_team != other.get_team()) and (not other._is_dead):
                     candidates[name]=d
 
             if candidates:
