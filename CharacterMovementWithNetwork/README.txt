@@ -21,4 +21,11 @@ RequestMove.java
 
 As a note I altered the CharacterModel class to work with the protocol.  May cause problems during integration.
 
-For the ResponseCharacterAttack.py I put animateAttack as the place holder for making a character do an attack animation without calculating targets or anything.  So replace that with the function to do that animation.
+Preliminary combat is implemented.
+
+BUGS:
+Currently it takes an extra attack to play the death animation after target health reaches 0.
+
+When more than one client logs in movement of all players is increased and a warning ":linmath(warning): Tried to invert singular LMatrix3" pops up.
+
+Animations need to be updated to be interupted smoothly. Currently they make the player look like he's spasming around or a posing statue.
