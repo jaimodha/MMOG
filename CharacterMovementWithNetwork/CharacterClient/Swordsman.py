@@ -115,18 +115,20 @@ class Swordsman(Character):
 					health = Swordsman.MAX_HEALTH
 
 	def animate(self, anim_type):
-		if anim_type==Constants.IDLE:
+		if anim_type==0:
 			self._character.loop("idle")
-		elif anim_type== Constants.WALK:
+		elif anim_type==1:
 			self._character.loop("walk")
-		elif anim_type==Constants.ATTACK:
+		elif anim_type==2:
+			self._character.loop("run")
+		elif anim_type==3:
 			atk_interval1 = self._character.actorInterval("attack", startFrame=1, endFrame=26)
 			atk_interval2 = self._character.actorInterval("attack", startFrame=56, endFrame=80)
 			seq = Sequence(atk_interval1, atk_interval2)
 			seq.start()
-		elif anim_type==Constants.SPECIAL_ATTACK:
+		elif anim_type==4:
 			self._character.play("special-attack")
-		elif anim_type==Constants.HURT:
+		elif anim_type==5:
 			self._character.play("hurt")
-		elif anim_type==Constants.DIE:
+		elif anim_type==6:
 			self._character.play("die")

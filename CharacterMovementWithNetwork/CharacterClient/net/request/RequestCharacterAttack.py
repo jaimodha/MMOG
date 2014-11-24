@@ -11,7 +11,7 @@ class RequestCharacterAttack(ServerRequest):
 
         try:
             pkg = PyDatagram()
-            pkg.addUint16(Constants.CSMG_ATTACK)
+            pkg.addUint16(Constants.CMSG_ATTACK)
             pkg.addInt32(args)#attackid
 
             self.cWriter.send(pkg, self.connection)

@@ -77,8 +77,8 @@ class World(DirectObject):
         self.accept("arrow_right", self.setKey, ["cam-right",1])
         self.accept("arrow_left-up", self.setKey, ["cam-left",0])
         self.accept("arrow_right-up", self.setKey, ["cam-right",0])
-        self.accept("mouse1", self.attack, [0])
-        self.accept("mouse3", self.attack, [1])
+        self.accept("mouse1", self.attack, [3])
+        self.accept("mouse3", self.attack, [4])
         
         self.username = str(raw_input("Username: "))
         type = input("Type: ")
@@ -160,14 +160,18 @@ class World(DirectObject):
         return task.cont
 
     
-    def attack(self, attack_type):
+    def attack(self, attack_id):
+        self.cManager.sendRequest(Constants.CMSG_ATTACK, attack_id)
+        target = self.find_target()
+        print target
+        damage = self.player.basic_attack()
+        if target != None:
+            hurt_interval = self.characters[target]._character.actorInterval("hurt")
+            hurt_seq = Sequence(Wait(0.5), hurt_interval)
+            hurt_seq.start()
+            self.characters[target].take_damage(damage)
+        """
         if attack_type==0:
-            """
-            ba_interval1 = self.player._character.actorInterval("attack", startFrame=1, endFrame=26)
-            ba_interval2 = self.player._character.actorInterval("attack", startFrame=56, endFrame=80)
-            seq = Sequence(ba_interval1, ba_interval2)
-            seq.start()
-            """
             target = self.find_target()
             print target
             damage = self.player.basic_attack()
@@ -178,12 +182,6 @@ class World(DirectObject):
                 self.characters[target].take_damage(damage)
 
         elif attack_type==1:
-            """
-            sa_interval1 = self.player._character.actorInterval("attack", startFrame=1, endFrame=13)
-            sa_interval2 = self.player._character.actorInterval("attack", startFrame=38, endFrame=80)
-            seq = Sequence(sa_interval1, sa_interval2)
-            seq.start()
-            """
             target = self.find_target()
             print target
             damage = self.player.special_attack()
@@ -192,6 +190,7 @@ class World(DirectObject):
                 hurt_seq = Sequence(Wait(0.5), hurt_interval)
                 hurt_seq.start()
                 self.characters[target].take_damage(damage)
+        """
 
     def find_target(self):
         """
