@@ -14,6 +14,7 @@ class RequestLogin(ServerRequest):
             pkg.addUint16(Constants.CMSG_AUTH)
             pkg.addString(args[0])
             pkg.addInt32(args[1])
+            pkg.addInt32(args[2])
 
             self.cWriter.send(pkg, self.connection)
 

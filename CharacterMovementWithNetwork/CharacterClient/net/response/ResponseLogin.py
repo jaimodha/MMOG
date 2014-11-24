@@ -16,6 +16,8 @@ class ResponseLogin(ServerResponse):
             self.charType = data.getInt32()
             self.faction = data.getInt32()
 
+            print self.faction
+
             print "new challenger"
             if main.username == self.username:
                         
