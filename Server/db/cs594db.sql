@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 14, 2014 at 12:34 PM
+-- Generation Time: Nov 23, 2014 at 02:41 AM
 -- Server version: 5.6.14
 -- PHP Version: 5.3.27
 
@@ -28,7 +28,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `characters` (
   `char_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `char_type` varchar(255) DEFAULT NULL,
+  `char_name` varchar(255) DEFAULT NULL,
+  `char_type` int(11) unsigned NOT NULL,
   `u_id` int(11) NOT NULL,
   `t_id` int(11) NOT NULL,
   PRIMARY KEY (`char_id`)
@@ -42,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
 
 CREATE TABLE IF NOT EXISTS `teams` (
   `team_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `team_num` varchar(40) NOT NULL,
+  `team_num` int(11) unsigned NOT NULL,
   `start_x_pos` float DEFAULT NULL,
   `start_y_pos` float DEFAULT NULL,
   `start_z_pos` float DEFAULT NULL,
@@ -59,7 +60,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(20) NOT NULL,
   `password` varchar(40) NOT NULL,
-  `email` varchar(80) NOT NULL,
   `Isconnected` tinyint(1) NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
