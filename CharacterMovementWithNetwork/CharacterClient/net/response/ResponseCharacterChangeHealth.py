@@ -13,15 +13,15 @@ class ResponseCharacterChangeHealth(ServerResponse):
 
             #actions
             if self.healthChange > 0:
-                if self.main.player.get_name == self.username:
-                            self.main.player.take_damage(self.healthChange)
+                if self.main.player.get_name() == self.username:
+                    self.main.player.take_damage(self.healthChange)
                 else:
-                            self.main.characters[username].take_damage(self.healthChange)
+                    self.main.characters[self.username].take_damage(self.healthChange)
             else:
-                if self.main.player.get_name == self.username:
-                            self.main.player.set_health(self.main.player.get_health - self.healthChange)
+                if self.main.player.get_name() == self.username:
+                    self.main.player.set_health(self.main.player.get_health - self.healthChange)
                 else:
-                            self.main.characters[username].set_health(self.main.characters[username].get_health - self.healthChange)
+                    self.main.characters[self.username].set_health(self.main.characters[username].get_health - self.healthChange)
         except:
-            self.log('Bad [' + str(Constants.SMGS_ATTACK) + '] Attack Response')
+            self.log('Bad [' + str(Constants.SMSG_ATTACK) + '] Attack Response')
             print_exc()

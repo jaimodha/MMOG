@@ -11,7 +11,7 @@ class RequestCharacterChangeHealth(ServerRequest):
 
         try:
             pkg = PyDatagram()
-            pkg.addUint16(Constants.CSMG_Health)
+            pkg.addUint16(Constants.CMSG_HEALTH)
             pkg.addString(args[0])#targeted player
             pkg.addInt32(args[1])#damage amount
 

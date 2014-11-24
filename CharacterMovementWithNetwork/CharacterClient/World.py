@@ -170,6 +170,7 @@ class World(DirectObject):
         elif attack_id==4:
             damage = self.player.special_attack()
         if target != None:
+            self.cManager.sendRequest(Constants.CMSG_HEALTH, [target, damage])
             hurt_interval = self.characters[target]._character.actorInterval("hurt")
             hurt_seq = Sequence(Wait(0.5), hurt_interval)
             hurt_seq.start()
