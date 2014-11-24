@@ -12,8 +12,12 @@ class ResponseCharacterAttack(ServerResponse):
             self.attackId = data.getInt32()
 
             #actions
+            #only need to add animation for characters that are not the player
             if self.username in main.characters:
-                        main.characters[self.username].animateAttack(attackId)
+                if self.attackId == 0:
+                    main.characters[self.username].basic_attack()
+                if self.attackId == 1:
+                    main.characters[self.username].special_attack()
 
         except:
             self.log('Bad [' + str(Constants.SMGS_MOVE) + '] Float Response')
