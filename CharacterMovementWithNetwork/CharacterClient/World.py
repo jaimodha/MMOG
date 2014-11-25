@@ -41,8 +41,20 @@ class World(DirectObject):
         base.win.setClearColor(Vec4(0,0,0,1))
         
         #self.environ = loader.loadModel("models/world")
-        self.environ = loader.loadModel("models/land")    
+        self.environ = loader.loadModel("models/Land") 
+        self.swordLeft = loader.loadModel("models/Sword_Left")
+        self.swordRight = loader.loadModel("models/Sword_Right")  
+        self.shieldLeft = loader.loadModel("models/Shield_Left")  
+        self.shieldRight = loader.loadModel("models/Shield_Right")  
+        self.money = loader.loadModel("models/Money")        
+        
         self.environ.reparentTo(render)
+        self.swordLeft.reparentTo(render)
+        self.swordRight.reparentTo(render)
+        self.shieldLeft.reparentTo(render)
+        self.shieldRight.reparentTo(render)
+        self.money.reparentTo(render)
+        
         self.environ.setPos(0,0,0)
         
         ## swordsmanStartPos = self.environ.find("**/start_point").getPos()
