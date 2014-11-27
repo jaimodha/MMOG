@@ -4,29 +4,55 @@ import java.util.ArrayList;
 
 public class ControlPointModel {
 
-	int countrolid;
+	int controlid;
 	double xpos;
 	double ypos;
 	double zpos;
+	double radius;
 	int attackpoints;
 	int defencepoints;
-	int money;
 	int gs_resourcepoints;
-	String owner;
+	int state;
+	int owner;
 	
-	ArrayList<ControlPointModel> cpmodel;
 	
 	public ControlPointModel()
 	{
-		cpmodel = new ArrayList<ControlPointModel>();
 	}
+	
+
+	public ControlPointModel(int controlid,double xpos,double ypos,double zpos,double radius,int attackpoints,int defencepoints,int gs_resourcepoints,int owner,int state)
+	{
+		this.controlid = controlid;
+		this.xpos = xpos;
+		this.ypos = ypos;
+		this.zpos=zpos;
+		this.radius=radius;
+		this.attackpoints=attackpoints;
+		this.defencepoints = defencepoints;
+		this.gs_resourcepoints = gs_resourcepoints;
+		this.owner = owner;
+		this.state= state;
+	}
+	
+	
+	
+	public int getState() {
+		return state;
+	}
+
+
+	public void setState(int state) {
+		this.state = state;
+	}
+
 
 	public int getCountrolid() {
-		return countrolid;
+		return controlid;
 	}
 
-	public void setCountrolid(int countrolid) {
-		this.countrolid = countrolid;
+	public void setCountrolid(int controlid) {
+		this.controlid = controlid;
 	}
 
 	public double getXpos() {
@@ -69,13 +95,6 @@ public class ControlPointModel {
 		this.defencepoints = defencepoints;
 	}
 
-	public int getMoney() {
-		return money;
-	}
-
-	public void setMoney(int money) {
-		this.money = money;
-	}
 
 	public int getGs_resourcepoints() {
 		return gs_resourcepoints;
@@ -85,20 +104,12 @@ public class ControlPointModel {
 		this.gs_resourcepoints = gs_resourcepoints;
 	}
 
-	public String getOwner() {
+	public int getOwner() {
 		return owner;
 	}
 
-	public void setOwner(String owner) {
+	public void setOwner(int owner) {
 		this.owner = owner;
-	}
-
-	public ArrayList<ControlPointModel> getCpmodel() {
-		return cpmodel;
-	}
-
-	public void setCpmodel(ArrayList<ControlPointModel> cpmodel) {
-		this.cpmodel = cpmodel;
 	}
 
 	

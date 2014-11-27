@@ -12,6 +12,7 @@ public abstract class GameResponse {
     protected byte[] responseInBytes; // Response information stored as bytes
     protected short responseCode;
 
+   
     /**
      * Convert the response into bytes format.
      * 

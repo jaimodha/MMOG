@@ -7,8 +7,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+
 // Custom Imports
 import core.GameClient;
+import core.GameServer;
 import networking.response.GameResponse;
 
 /**
@@ -21,6 +23,7 @@ public abstract class GameRequest {
     protected DataInputStream dataInput;
     protected List<GameResponse> responses;
     protected int request_id;
+    protected GameServer server;
 
     public GameRequest() {
         responses = new ArrayList<GameResponse>();
@@ -42,7 +45,15 @@ public abstract class GameRequest {
         this.client = client;
     }
 
-    /**
+    public GameServer getServer() {
+		return server;
+	}
+
+	public void setServer(GameServer server) {
+		this.server = server;
+	}
+
+	/**
      * Parse the request from the input stream.
      * 
      * @throws IOException 
@@ -61,6 +72,7 @@ public abstract class GameRequest {
      * 
      * @return the responses
      */
+    public abstract byte[] respond() throws IOException;
     public List<GameResponse> getResponses() {
         return responses;
     }

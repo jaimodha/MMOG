@@ -7,7 +7,7 @@ public class CharacterModel {
 	String username;
 	int c_id;
 	String name;
-	String ctype;
+	int ctype;
 	int rewardpoint;
  	int hitpoint;
 	int movementspeed;
@@ -16,15 +16,42 @@ public class CharacterModel {
 	double ypos;
 	double zpos;
 	double h;
-	String teamid;
+	int teamid;
 	int movement;
 	boolean IsAttacking;
-	
-	ArrayList<CharacterModel> cmlist;
+	boolean IsActive = false;
+	int attackId;
+	int health = 100;
 	
 	public CharacterModel()
 	{
-		cmlist = new ArrayList<CharacterModel>();
+	}
+	
+	public CharacterModel(int c_id,int ctype,String username,int teamid,String char_name)
+	{
+		this.c_id = c_id;
+		this.ctype = ctype;
+		this.username = username;
+		this.teamid = teamid;
+		this.name = char_name;
+	}
+	
+	public CharacterModel(int ctype,int teamid,String name,boolean IsActive)
+	{
+		this.ctype = ctype;
+		this.teamid=teamid;
+		this.name = name;
+		this.IsActive = IsActive;
+	}
+	
+	
+
+	public int getAttackId() {
+		return attackId;
+	}
+
+	public void setAttackId(int attackId) {
+		this.attackId = attackId;
 	}
 
 	public String getUsername() {
@@ -51,11 +78,11 @@ public class CharacterModel {
 		this.name = name;
 	}
 
-	public String getCtype() {
+	public int getCtype() {
 		return ctype;
 	}
 
-	public void setCtype(String ctype) {
+	public void setCtype(int ctype) {
 		this.ctype = ctype;
 	}
 
@@ -123,11 +150,11 @@ public class CharacterModel {
 		this.h = h;
 	}
 
-	public String getTeamid() {
+	public int getTeamid() {
 		return teamid;
 	}
 
-	public void setTeamid(String teamid) {
+	public void setTeamid(int teamid) {
 		this.teamid = teamid;
 	}
 
@@ -147,14 +174,21 @@ public class CharacterModel {
 		IsAttacking = isAttacking;
 	}
 
-	public ArrayList<CharacterModel> getCmlist() {
-		return cmlist;
+	public boolean isIsActive() {
+		return IsActive;
 	}
 
-	public void setCmlist(ArrayList<CharacterModel> cmlist) {
-		this.cmlist = cmlist;
+	public void setIsActive(boolean isActive) {
+		IsActive = isActive;
 	}
 
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
 	
 	
 	

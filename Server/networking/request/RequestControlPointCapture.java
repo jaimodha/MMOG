@@ -3,24 +3,25 @@ package networking.request;
 import java.io.IOException;
 
 import utility.DataReader;
-import networking.response.ResponseControlPointState;
+import networking.response.ResponseCharacterAttack;
+import networking.response.ResponseControlPointCapture;
 
-public class RequestControlPointState extends GameRequest{
+public class RequestControlPointCapture extends GameRequest{
 
-	private int controlPointId ;
-	private int controlPointState ;
-	private ResponseControlPointState res;
+	private  int controlPointId;
+	private int factionId;
+	private ResponseControlPointCapture res;
 	
-	public RequestControlPointState()
+	public RequestControlPointCapture()
 	{
-		 responses.add(res = new ResponseControlPointState());
+		responses.add(res = new ResponseControlPointCapture());
 	}
 	
 	@Override
 	public void parse() throws IOException {
 		// TODO Auto-generated method stub
 		controlPointId=DataReader.readInt(dataInput);
-		controlPointState=DataReader.readInt(dataInput);
+		factionId = DataReader.readInt(dataInput);;
 	}
 
 	@Override
@@ -31,8 +32,7 @@ public class RequestControlPointState extends GameRequest{
 			if(server.getCplist().get(i).getCountrolid() == controlPointId)
 			{
 				
-				server.getCplist().get(i).setState(controlPointState);
-				res.setControlPointState(controlPointState);
+				server.getCplist().get(i).setOwner(factionId);
 				res.setCp(server.getCplist().get(i));
 			}
 		}

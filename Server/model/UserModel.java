@@ -4,17 +4,31 @@ import java.util.ArrayList;
 
 public class UserModel {
 
+	int userid;
 	String username;
 	String password;
-	String email;
 	boolean IsConnected;
+	ArrayList<CharacterModel> charlist;
 	
-	ArrayList<UserModel> ulist;
 	
 	public UserModel()
 	{
-		ulist = new ArrayList<UserModel>();
+		charlist=new ArrayList<CharacterModel>();
 	}
+
+	
+	
+	public int getUserid() {
+		return userid;
+	}
+
+
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
+
 
 	public String getUsername() {
 		return username;
@@ -32,14 +46,7 @@ public class UserModel {
 		this.password = password;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
+	
 	public boolean isIsConnected() {
 		return IsConnected;
 	}
@@ -48,13 +55,14 @@ public class UserModel {
 		IsConnected = isConnected;
 	}
 
-	public ArrayList<UserModel> getUlist() {
-		return ulist;
+	public ArrayList<CharacterModel> getCharlist() {
+		return charlist;
 	}
 
-	public void setUlist(ArrayList<UserModel> ulist) {
-		this.ulist = ulist;
+	public void setCharlist(ArrayList<CharacterModel> charlist) {
+		this.charlist = charlist;
 	}
+
 	
 	
 }
