@@ -9,91 +9,159 @@ import random, sys
 """ Panda3D Imports """
 from direct.directbase.DirectStart import *
 from direct.showbase.DirectObject import DirectObject
+
 from panda3d.core import Texture
 from panda3d.core import WindowProperties
-from panda3d.core import *
-from panda3d.core import Vec4
-from direct.actor.Actor import Actor
-from direct.gui.DirectGui import *
-from direct.gui.OnscreenText import OnscreenText
-from direct.gui.OnscreenImage import OnscreenImage
-from direct.interval.IntervalGlobal import Sequence
 
-from main.characterSelection import *
+from direct.gui.OnscreenImage import OnscreenImage
+from panda3d.core import Vec3,Vec4,BitMask32
+from panda3d.core import TransparencyAttrib
+from direct.gui.DirectGui import *
+from panda3d.core import TextNode
+from direct.task import Task
+
+""" Custom Imports """
+# import your modules
+
+from main.Register import Register
+from main.selectcharandteamtype import *
 from common.Constants import Constants
 from net.ConnectionManager import ConnectionManager
 
+class login:
 
-class login():
-    TEXT_COLOR = (1,1,1,1)
-    TEXT_COLOR_WHITE = (255, 255, 255, 1)
-    TEXT_SCALE = 0.07
-    FONT_TYPE_01 = 0
-    TEXT_SHADOW_COLOR = (0,0,0,0.5)
-    usernameInput = ""
-    passwordInput = ""
-    frame = DirectFrame()
-    username = OnscreenText()
-    password = OnscreenText()
-    cpassword = OnscreenText()
-    failed = OnscreenText()
-    userTextbox = DirectEntry()
-    passTextbox = DirectEntry()
-    submitBtn = DirectButton()
-    registerBtn = DirectButton()
-    cancelBtn = DirectButton()
-    
-    
-    registerUsername = ""
-    registerPassword = ""
-    registerCPassword = ""
-    
-    regInputUser = DirectEntry()
-    regInputPass = DirectEntry()
-    regInputCPass = DirectEntry()
-    
-    regRegisterBtn = DirectButton()
-    regCancelBtn = DirectButton()
-    
     def __init__(self):
-        print 'Loading Login...'
-        self.error = False
-        self.status = "NotAuthorized";
-            
-    def createLogo(self):
-        base.win.setClearColor(Vec4(0,0,0,1))
         
-        self.main = DirectFrame(frameColor=(0, 0, 0, 1), #(R,G,B,A)
-                            frameSize=(-2, 2, -2, 2),#(Left,Right,Bottom,Top)
-                            pos=(0, 0, 0))
-        self.logo = OnscreenImage(image = 'logo.png', pos = (0, 1.4, .6), scale=(0.75, .5, .4))
-        self.logo.reparentTo(self.main)
+        #self.loginEntry = []
+        
+        base.win.setClearColor(Vec4(0,0,0,1))
+        self.imageObject = OnscreenImage(parent = render2d, image = 'images/mainPage.png', pos = (0,0,0), scale = (1.444, 1, 1.444))
+        self.imageObject.setTransparency(TransparencyAttrib.MAlpha)
+        self.createMainFrame()
+        self.createText()
+        self.createTextEntry()
+        self.createButtons()
+
     def startConnection(self):
         if self.cManager.connection == None:
             if not self.cManager.startConnection():
                 return False
 
         return True
-    def getStatus(self):
-        return self.status
-    def clearPassText(self):
-        self.passTextbox.enterText('')
-    def clearUserText(self):
-        self.userTextbox.enterText('')
-    def getUserText(self):
-        self.usernameInput = self.userTextbox.get()
-    def getPassText(self):
-        self.passwordInput = self.passTextbox.get()
-    def setUserText(self, textEntered):
-        #print "username: ",textEntered
-        self.usernameInput = textEntered
-    def setPassText(self, textEntered):
-        #print "password: ",textEntered
-        self.passwordInput = textEntered
-        self.clickedSubmit()
-    def clickedSubmit(self):
-        self.usernameInput = self.userTextbox.get().strip()
-        self.passwordInput = self.passTextbox.get().strip()
+    def createMainFrame(self):
+        """Create the main base frame."""
+        self.mainFrame = DirectFrame( frameSize = (-0.512, 0.512, -0.362, 0.362),
+                                       frameColor = (0.53, 0.42, 0.18, 0.70),
+                                       pos = (0, 0, -0.28) )
+
+        self.mainBox = DirectFrame( frameSize = (-0.5, 0.5, -0.35, 0.35),
+                                    frameColor = (0, 0, 0, 0.25),
+                                    pos = (0, 0, 0) )
+        self.mainBox.reparentTo(self.mainFrame)
+
+        self.blackFrame = DirectFrame( frameSize = (-2, 2, -2, 2),
+                                       frameColor = (0, 0, 0, 0.3),
+                                       pos = (0, 0, 0),
+                                       state = DGG.NORMAL )
+        self.blackFrame.reparentTo(self.mainFrame, 1)
+        self.blackFrame.hide()
+    def createText(self):
+        """Create some label for login text entry field"""
+        self.headerLabel = DirectLabel(text='LOG IN',
+                                       text_align=TextNode.ACenter,
+                                       frameSize=(-0.2, 0.2, 0.2, 0.2),
+                                       text_fg=(1,1,1,1),
+                                       text_scale=0.07,
+                                       frameColor=(0, 0, 0, 0),
+                                       pos=(0, 0, 0.23))
+        self.headerLabel.reparentTo(self.mainFrame)
+        self.usernameLabel = DirectLabel(text='Username',
+                                        text_align = TextNode.ARight,
+                                         text_fg=(1,1,1,1),
+                                         text_scale=0.06,
+                                         frameColor=(0, 0, 0, 0),
+                                         pos=(-0.19, 0, 0.067))
+        self.usernameLabel.reparentTo(self.mainFrame)
+
+        self.passwordLabel = DirectLabel(text='Password',
+                                        text_align = TextNode.ARight,
+                                         text_fg=(1,1,1,1),
+                                         text_scale=0.06,
+                                         frameColor=(0, 0, 0, 0),
+                                         pos=(-0.19, 0, -0.070))
+        self.passwordLabel.reparentTo(self.mainFrame)
+    
+    def createTextEntry(self):
+        """Create entry boxes for credentials."""
+        self.usernameEntry = DirectEntry(self.mainFrame,scale=0.055,
+                                              pos=(-0.14, 0, 0.055),
+                                              command=self.submitLogin,
+                                              focus=1,
+                                              focusInCommand=self.focus("username"),
+                                              #focusInExtraArgs=[0],
+                                              rolloverSound = None)
+        self.usernameEntry.reparentTo(self.mainFrame)
+        #self.loginEntry.append(self.usernameEntry)
+        
+        self.passwordEntry = DirectEntry(self.mainFrame,
+                                              scale=0.055,
+                                              pos=(-0.14, 0, -0.08),
+                                              command=self.submitLogin,
+                                              obscured=1,
+                                              focusInCommand=self.focus("password"),
+                                              #focusInExtraArgs=[1],
+                                              rolloverSound = None)
+        self.passwordEntry.reparentTo(self.mainFrame)
+        #self.loginEntry.append(self.passwordEntry)
+
+    def createButtons(self):
+        """Create some buttons."""
+        self.validateLoginFrame = DirectFrame( frameSize = (-0.131, 0.131, -0.056, 0.056),
+                                               frameColor = (0.33, 0.42, 0.18, 0.95), # color of the login button
+                                               pos = (-0.2, 0, -0.22) )
+        self.validateLoginFrame.reparentTo(self.mainBox)
+
+        self.validateLogin = DirectButton (text='Log In',
+                                                 text_fg=(1, 1, 1, 1),
+                                                 text_pos=(0, -0.015),
+                                                 text_scale=0.05,
+                                                 frameSize=(-0.125, 0.125, -0.05, 0.05),
+                                                 frameColor=(0, 0, 0, 0.2),
+                                                 relief=DGG.FLAT,
+                                                 pos=(0, 0, 0),
+                                                 command=self.submitLogin,
+                                                 clickSound = None,
+                                                 rolloverSound = None)
+        self.validateLogin.reparentTo(self.validateLoginFrame)
+
+        self.registerButtonFrame = DirectFrame( frameSize = (-0.131, 0.131, -0.056, 0.056),
+                                                frameColor = (1, 0, 1, 1), # color of the register button
+                                                pos = (0.2, 0, -0.22) )
+        self.registerButtonFrame.reparentTo(self.mainBox)
+
+        self.registerButton = DirectButton(text='Register',
+                                                 text_fg=(1, 1, 1, 1),
+                                                 text_pos=(0, -0.015),
+                                                 text_scale=0.05,
+                                                 frameSize=(-0.125, 0.125, -0.05, 0.05),
+                                                 frameColor=(0, 0, 0, 0.2),
+                                                 relief=DGG.FLAT,
+                                                 pos=(0, 0, 0),
+                                                 command=self.register,
+                                                 clickSound = None,
+                                                 rolloverSound = None)
+        self.registerButton.reparentTo(self.registerButtonFrame)
+    def focus(self, text):
+        print text
+    def clickedCancel(self):
+        print "You pressed Cancel"
+        exit()
+    def submitLogin(self):
+        print "Login"
+        print "username: "+self.usernameEntry.get()
+        print "password: "+self.passwordEntry.get()
+        self.usernameInput = self.usernameEntry.get().strip()
+        self.passwordInput = self.passwordEntry.get().strip()
         self.error = False
         try:
             self.cManager = ConnectionManager()
@@ -105,107 +173,19 @@ class login():
                 #c = characterSelection()
                 print "You pressed Submit", self.usernameInput, " ; ",self.passwordInput
                 self.cManager.sendRequest(Constants.CMSG_AUTH, (self.usernameInput, self.passwordInput));
+                """ THiS IS WHERE IT STARTS TO GET WEIRD """
+                self.mainFrame.hide()
+                c = selectcharandteamtype(self.mainFrame)
             else:
                 print "Please enter in a username and password"
         else:
             print "Cannot connect to server."
-    def clickedCancel(self):
-        print "You pressed Cancel"
-        exit()
-    def clickedRegister(self):
-        print "You pressed Register"
-        self.createRegisterWindow()
-    def clickedRegRegister(self):
-        self.registerUsername = self.regInputUser.get()
-        self.registerPassword = self.regInputPass.get()
-        self.registerCPassword = self.regInputCPass.get()
-        self.error = False
-        try:
-            self.cManager = ConnectionManager()
-            self.startConnection()
-        except Exception:
-            self.error = True
-            
-        if self.error is False:
-            if self.registerPassword == self.registerCPassword and self.registerPassword.strip() != "" and self.registerUsername.strip() != "":
-                print "Success (",self.registerUsername, ", ",self.registerPassword,", ",self.registerCPassword,")"
-                self.cManager.sendRequest(Constants.CMSG_REGISTER, (self.registerUsername, self.registerPassword))
-                self.clickedRegCancel()
-            else:
-                self.failed = OnscreenText(text="Your password does not match Confirm Password.", pos=(0, -.7), scale=0.06,fg=Constants.TEXT_ERROR_COLOR, align=TextNode.ACenter,mayChange=0)
-                self.failed.reparentTo(self.frame)
-                print "Failed (",self.registerUsername, ", ",self.registerPassword,", ",self.registerCPassword,")"
-        else:
-            print "Cannot Connect to the Server"
-    def clickedRegCancel(self):
-        self.destroyRegisterWindow()
-        self.createLoginWindow()
-    def destroyLoginWindow(self):
-        self.frame.destroy()
-        self.username.destroy()
-        self.password.destroy()
-        self.userTextbox.destroy()
-        self.passTextbox.destroy()
-        self.submitBtn.destroy()
-        self.registerBtn.destroy()
-        self.cancelBtn.destroy()
-    def destroyRegisterWindow(self):
-        self.frame.destroy()
-        self.username.destroy()
-        self.password.destroy()
-        self.cpassword.destroy()
-        self.regInputUser.destroy()
-        self.regInputPass.destroy()
-        self.regInputCPass.destroy()
-        self.cancelBtn.destroy()
-        self.registerBtn.destroy()
-        self.failed.destroy();
-    def throwIncorrectUsername(self):
-        self.incorrectUsername = OnscreenText(text="Incorrect Username/Password", pos=(0, -.5), scale=0.05, fg=(1,0.5,0.5,1), mayChange=0)
-    def throwServerError(self):
-        self.incorrectUsername = OnscreenText(text="Unable to Connect to Server", pos=(0, -.5), scale=0.05, fg=(1,0.5,0.5,1), mayChange=0)
-    def createLoginWindow(self):
-        self.frame = DirectFrame(frameColor=(255, 255, 255, 0.5), #(R,G,B,A)
-                                frameSize=(-1, 1, -1, 0.0),#(Left,Right,Bottom,Top)
-                                pos=(0, 0, 0.25))
-        self.frame.reparentTo(self.main)
-        self.loginTitle = OnscreenText(text = "Login", pos = (0,-0.2), scale=0.1, fg=(1,0.5,0.5,1), align=TextNode.ACenter, mayChange=0)
-        self.username = OnscreenText(text = "username:", pos = (-0.1, -0.4), scale = 0.07,fg=self.TEXT_COLOR_WHITE,align=TextNode.ACenter,mayChange=0)
-        self.password = OnscreenText(text="password: ", pos = (-0.1, -0.6), scale=0.07, fg=self.TEXT_COLOR_WHITE, align=TextNode.ACenter, mayChange=0)
-        self.loginTitle.reparentTo(self.frame)
-        self.username.reparentTo(self.frame)
-        self.password.reparentTo(self.frame)
-        self.userTextbox = DirectEntry(text = "" ,scale=.05,pos=(.1,0, -0.4), command=self.setUserText, numLines = 1,focus=1,focusInCommand=self.clearUserText, focusOutCommand=self.getUserText)
-        self.passTextbox = DirectEntry(text = "" ,scale=.05,pos=(.1,0, -0.6), obscured=1, command=self.setPassText, numLines = 1,focus=0,focusInCommand=self.clearPassText, focusOutCommand=self.getPassText)
-        self.userTextbox.reparentTo(self.frame)
-        self.passTextbox.reparentTo(self.frame)
-        self.submitBtn = DirectButton(text = ("Submit", "Login", "Submit", "disabled"), scale=.08, command=self.clickedSubmit, pos=(0.8, 0.0, -0.90))
-        self.registerBtn =  DirectButton(text = ("Register", "Register", "Register", "disabled"), scale=.075, command=self.clickedRegister, pos=(0.5, 0.0, -0.90))
-        self.cancelBtn =  DirectButton(text = ("Cancel", "Cancel", "Cancel", "disabled"), scale=.08, command=self.clickedCancel, pos=(0.2, 0.0, -0.90))
-        self.submitBtn.reparentTo(self.frame)
-        self.cancelBtn.reparentTo(self.frame)
-        self.registerBtn.reparentTo(self.frame)
-    def createRegisterWindow(self):
-        self.createLogo()
-        self.frame = DirectFrame(frameColor=(100, 100, 100, .5), #(R,G,B,A)
-                                frameSize=(-1, 1, -1, 0.0),#(Left,Right,Bottom,Top)
-                                pos=(0, 0, 0.25))
-        self.frame.reparentTo(self.main)
-        self.registerTitle = OnscreenText(text = "Register", pos = (0,-0.2), scale=0.1, fg=(1,0.5,0.5,1), align=TextNode.ACenter, mayChange=0)
-        self.username = OnscreenText(text = "Username:", pos = (-0.1, -.4), scale = 0.07,fg=self.TEXT_COLOR_WHITE,align=TextNode.ACenter,mayChange=0)
-        self.password = OnscreenText(text="Password: ", pos = (-0.1, -0.5), scale=0.07, fg=self.TEXT_COLOR_WHITE, align=TextNode.ACenter, mayChange=0)
-        self.cpassword = OnscreenText(text="Confirm Password: ", pos = (-0.25, -0.6), scale=0.07, fg=self.TEXT_COLOR_WHITE, align=TextNode.ACenter, mayChange=0)
-        self.registerTitle.reparentTo(self.frame)
-        self.username.reparentTo(self.frame)
-        self.password.reparentTo(self.frame)
-        self.cpassword.reparentTo(self.frame)
-        self.regInputUser = DirectEntry(text = "" ,scale=.05,pos=(.1,0,-.4), command=self.setUserText,initialText="", numLines = 1,focus=1,focusInCommand=self.clearUserText, focusOutCommand=self.getUserText)
-        self.regInputPass = DirectEntry(text = "" ,scale=.05,pos=(.1,0, -.5),obscured=1,command=self.setPassText,initialText="", numLines = 1,focus=0,focusInCommand=self.clearPassText, focusOutCommand=self.getPassText)
-        self.regInputCPass = DirectEntry(text = "" ,scale=.05,pos=(.1,0, -.6),obscured=1,command=self.setPassText,initialText="", numLines = 1,focus=0,focusInCommand=self.clearPassText, focusOutCommand=self.getPassText)
-        self.regInputUser.reparentTo(self.frame)
-        self.regInputPass.reparentTo(self.frame)
-        self.regInputCPass.reparentTo(self.frame)
-        self.registerBtn =  DirectButton(text = ("Register", "Register", "Register", "disabled"), scale=.075, command=self.clickedRegRegister, pos=(0.8, 0.0, -0.90))
-        self.cancelBtn =  DirectButton(text = ("Cancel", "Cancel", "Cancel", "disabled"), scale=.08, command=self.clickedRegCancel, pos=(0.5, 0.0, -0.90))
-        self.cancelBtn.reparentTo(self.frame)
-        self.registerBtn.reparentTo(self.frame)
+    #def resume(self):
+        #self.mainFrame.show()
+    def register(self):
+        """Switch to the registration screen."""
+        
+        self.mainFrame.hide()
+        R = Register(self.mainFrame)
+        print "Register"
+    
