@@ -46,7 +46,7 @@ class Chat(object):
 		self.chatBox=self.chatFrame.getCanvas().attachNewNode('myCanvas')
 		#input frame
 		self.chatInput = DirectEntry(text = "" ,scale=.05,command=self.sendMessage,
-		                            numLines = 2,focus=1, width=16.5,
+		                            numLines = 2, width=16.5,
 		                            frameColor=(1,1,1,0.35),focusInCommand=self.clearText,
 		                            borderWidth=(.01,.01),
 		                            text_fg=(1,1,0,1))
