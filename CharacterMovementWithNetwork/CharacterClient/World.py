@@ -272,9 +272,15 @@ class World(DirectObject):
                 if (p_team != other.get_team()) and (not other._is_dead):
                     candidates[name]=d
 
+            if isinstance(self.player, Swordsman):
+                print "Swordsman instance"
+            elif isinstance(self.player, Axeman):
+                print "Axeman instance"
+            elif isinstance(self.player, Character):
+                print "Character instance"
+
             if candidates:
                 target = min(candidates, key=candidates.get)
-
 
         return target
 
