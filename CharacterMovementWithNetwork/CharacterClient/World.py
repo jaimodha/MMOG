@@ -18,6 +18,7 @@ from panda3d.core import Point3
 from Character import Character
 from Swordsman import Swordsman
 from Axeman import Axeman
+from Chat import Chat
 from miniMap import *
 
 from common.Constants import Constants
@@ -111,6 +112,8 @@ class World(DirectObject):
         directionalLight.setSpecularColor(Vec4(1, 1, 1, 1))
         render.setLight(render.attachNewNode(ambientLight))
         render.setLight(render.attachNewNode(directionalLight))
+
+        Chat(self.cManager)
         
     def startConnection(self):
         if self.cManager.connection == None:
@@ -127,8 +130,8 @@ class World(DirectObject):
         
     def move(self, task):
 
-        #main.miniMap.updateHeroPos(self.player._character.getX, self.player._character.getY)
-        #main.miniMap.updateHeroHpr(self.player._character.getH)
+        main.miniMap.updateHeroPos(self.player._character.getX(), self.player._character.getY())
+        main.miniMap.updateHeroHpr(self.player._character.getH())
 
         base.camera.lookAt(self.player._character)
         if (self.keyMap["cam-left"]!=0):

@@ -12,11 +12,13 @@ class Constants:
     MSG_NONE                            = 0
     
     CMSG_AUTH                           = 101
+    CMSG_CHAT                           = 105
     CMSG_MOVE                           = 106
     CMSG_ATTACK                         = 107
     CMSG_HEALTH                         = 108
     
     SMSG_AUTH                           = 201
+    SMSG_CHAT                           = 205
     SMSG_MOVE                           = 206
     SMSG_ATTACK                         = 207
     SMSG_HEALTH                         = 208

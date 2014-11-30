@@ -8,6 +8,7 @@ from net.request.RequestMove import RequestMove
 from net.request.RequestCharacterAttack import RequestCharacterAttack
 from net.request.RequestCharacterChangeHealth import RequestCharacterChangeHealth
 from net.request.RequestLogin import RequestLogin
+from net.request.RequestChat import RequestChat
 from net.request.RequestHeartbeat import RequestHeartbeat
 
 class ServerRequestTable:
@@ -27,6 +28,7 @@ class ServerRequestTable:
         self.add(Constants.CMSG_MOVE, 'RequestMove')
         self.add(Constants.CMSG_ATTACK, 'RequestCharacterAttack')
         self.add(Constants.CMSG_HEALTH, 'RequestCharacterChangeHealth')
+        self.add(Constants.CMSG_CHAT, 'RequestChat')
         self.add(Constants.REQ_HEARTBEAT, 'RequestHeartbeat')
 
     def add(self, constant, name):

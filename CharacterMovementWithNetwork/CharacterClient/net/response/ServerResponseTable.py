@@ -7,6 +7,7 @@ from net.response.ResponseRandomFloat import ResponseRandomFloat
 from net.response.ResponseCharacterMovement import ResponseCharacterMovement
 from net.response.ResponseCharacterAttack import ResponseCharacterAttack
 from net.response.ResponseCharacterChangeHealth import ResponseCharacterChangeHealth
+from net.response.ResponseChat import ResponseChat
 from net.response.ResponseLogin import ResponseLogin
 
 class ServerResponseTable:
@@ -25,6 +26,7 @@ class ServerResponseTable:
         self.add(Constants.SMSG_AUTH, 'ResponseLogin')
         self.add(Constants.SMSG_MOVE, 'ResponseCharacterMovement')
         self.add(Constants.SMSG_ATTACK, 'ResponseCharacterAttack')
+        self.add(Constants.SMSG_CHAT, 'ResponseChat')
         self.add(Constants.SMSG_HEALTH, 'ResponseCharacterChangeHealth')
 
     def add(self, constant, name):
