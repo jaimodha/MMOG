@@ -210,6 +210,45 @@ public class GameServer {
         }
     }*/
 
+  //-------------------------------------------------
+    /**
+     * get all the active client in the same team
+     * @param factionId is the team they belongs to (red or blue)
+     * @return
+     */
+    public List<GameClient> getThreadsByTeam(int factionId) {
+         List<GameClient> clients =new ArrayList<GameClient>() ;
+         for (GameClient client : activeThreads.values()) {
+             //System.out.println("getThreadby team: "+client.getPlayer().getFactionId()+"....."+ factionId);
+             if(client.getCharacter().getTeamid() == factionId ){
+            	 	System.out.println("add");
+                     clients.add(client);
+             }
+         }
+         return clients;
+    }
+    /**
+     * being called by ResponseChat, to send the message to their team player
+     * @param client_id 
+     * @param factionId
+     * @param response contains response from ResponseChat
+     */
+    public void addResponseForAllPlayerInTheSameTeam(long client_id,int factionId, GameResponse response){
+        List<GameClient> clients = this.getThreadsByTeam(factionId);
+        if (clients != null) {
+            System.out.println("clients size: "+clients.size());
+            for (GameClient client : clients) {
+                 if (client_id !=client.getId()){//.getPlayer().getID()) {
+                System.out.println("RES: "+client.getCharacter().getTeamid()+" "+client.getId()+" Send: "+response.toString());
+                 client.addResponseForUpdate(response);
+                 }
+            }
+        }
+        else {
+        System.out.println("clients is null");
+        }
+    }
+    
     /**
      * Push a pending response to all users' queue except one user.
      * 

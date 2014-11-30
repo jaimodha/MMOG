@@ -8,6 +8,8 @@ public class Constants {
     // Request (1xx) + Response (2xx)
     public final static short CMSG_AUTH = 101;
     public final static short SMSG_AUTH = 201;
+    public final static short CMSG_CHAT = 105;
+    public final static short SMSG_CHAT = 205;
     public final static short CMSG_MOVE = 106;
     public final static short SMSG_MOVE = 206;
     public final static short CMSG_ATTACK = 107;

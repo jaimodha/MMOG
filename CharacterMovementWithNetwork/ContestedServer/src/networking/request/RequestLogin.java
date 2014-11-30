@@ -35,6 +35,9 @@ public class RequestLogin extends GameRequest {
         responseLogin.setUsername(username);
         responseLogin.setType(type);
         responseLogin.setFaction(faction);
+        //
+        client.getCharacter().setC_id((int)this.client.getId());
+        //
         client.getCharacter().setName(username);
         client.getCharacter().setCtype(type);
         client.getCharacter().setTeamid(faction);
@@ -54,7 +57,7 @@ public class RequestLogin extends GameRequest {
         	}
        			
         }
-        client.getServer().addResponseForAllOnlinePlayers(client.getId(), responseLogin);
+        //client.getServer().addResponseForAllOnlinePlayers(client.getId(), responseLogin);
         
     }
 }

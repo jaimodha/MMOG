@@ -178,6 +178,14 @@ class World(DirectObject):
     def attack(self, attack_id):
         self.cManager.sendRequest(Constants.CMSG_ATTACK, attack_id)
         target = self.find_target()
+        """
+        if isinstance(self.player, Swordsman):
+                print "Swordsman instance"
+        elif isinstance(self.player, Axeman):
+            print "Axeman instance"
+        elif isinstance(self.player, Character):
+            print "Character instance"
+        """
         print target
         damage=0
         if attack_id==3:
@@ -268,16 +276,16 @@ class World(DirectObject):
 
             d = self.distance(tx, ty, px, py)
 
-            if angle<(fov/2) and d<self.player.ATK_RANGE:
-                if (p_team != other.get_team()) and (not other._is_dead):
-                    candidates[name]=d
-
             if isinstance(self.player, Swordsman):
                 print "Swordsman instance"
             elif isinstance(self.player, Axeman):
                 print "Axeman instance"
             elif isinstance(self.player, Character):
                 print "Character instance"
+
+            if angle<(fov/2) and d<self.player.ATK_RANGE:
+                if (p_team != other.get_team()) and (not other._is_dead):
+                    candidates[name]=d
 
             if candidates:
                 target = min(candidates, key=candidates.get)

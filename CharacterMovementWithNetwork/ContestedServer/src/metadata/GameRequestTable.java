@@ -30,6 +30,7 @@ public class GameRequestTable {
         add(Constants.RAND_SHORT, "RequestShort");
         add(Constants.RAND_FLOAT, "RequestFloat");
         add(Constants.CMSG_AUTH, "RequestLogin");
+        add(Constants.CMSG_CHAT, "RequestChat");
         add(Constants.CMSG_MOVE, "RequestMove");
         add(Constants.CMSG_ATTACK, "RequestCharacterAttack");
         add(Constants.CMSG_HEALTH, "RequestCharacterChangeHealth");
