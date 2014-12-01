@@ -23,7 +23,7 @@ from direct.task import Task
 """ Custom Imports """
 # import your modules
 
-from main.Register import Register
+from main.Register import *
 from main.selectcharandteamtype import *
 from common.Constants import Constants
 from net.ConnectionManager import ConnectionManager
