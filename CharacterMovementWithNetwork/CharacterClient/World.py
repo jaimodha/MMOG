@@ -208,6 +208,12 @@ class World(DirectObject):
         h = self.player._character.getH()
         p_team = self.player.get_team()
 
+        num_of_targets=0
+        if isinstance(self.player, Swordsman):
+            num_of_targets=1
+        elif isinstance(self.player, Axeman):
+            num_of_targets=3
+
         rx=3
         ry=0
         if h==90:
@@ -276,19 +282,16 @@ class World(DirectObject):
 
             d = self.distance(tx, ty, px, py)
 
-            if isinstance(self.player, Swordsman):
-                print "Swordsman instance"
-            elif isinstance(self.player, Axeman):
-                print "Axeman instance"
-            elif isinstance(self.player, Character):
-                print "Character instance"
-
             if angle<(fov/2) and d<self.player.ATK_RANGE:
                 if (p_team != other.get_team()) and (not other._is_dead):
                     candidates[name]=d
 
             if candidates:
-                target = min(candidates, key=candidates.get)
+                if num_of_targets==1:
+                    target = min(candidates, key=candidates.get)
+                elif num_of_targets==3:
+                    sorted_candidates=sorted(candidates.items(), reverse=True)
+                    print sorted_candidates
 
         return target
 

@@ -57,7 +57,7 @@ public class RequestLogin extends GameRequest {
         	}
        			
         }
-        //client.getServer().addResponseForAllOnlinePlayers(client.getId(), responseLogin);
+        client.getServer().addResponseForAllOnlinePlayers(client.getId(), responseLogin);
         
     }
 }

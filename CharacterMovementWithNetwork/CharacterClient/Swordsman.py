@@ -102,7 +102,7 @@ class Swordsman(Character):
 		if not self._is_dead:
 			if self._def_buff==0:
 				Swordsman.MAX_HEALTH = 100
-			elif Swordsman.MAX_HEALTH==140 and self._def_buff==1:
+			elif Swordsman.MAX_HEALTH==125 and self._def_buff==1:
 				Swordsman.MAX_HEALTH = 110
 
 			health = Character.get_health(self)
