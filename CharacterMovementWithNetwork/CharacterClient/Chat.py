@@ -52,7 +52,7 @@ class Chat(object):
 		                            text_fg=(1,1,0,1))
 		self.chatInput.setPos(-1.33,0,-.93)
 		self.msgQ = Queue()
-		taskMgr.add(self.refresh, 'Heartbeat')
+		#taskMgr.add(self.refresh, 'Heartbeat')
 		taskMgr.add(self.resizeScreen, 'resizeScreen')
 
 	def refresh(self,task):
