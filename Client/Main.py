@@ -18,6 +18,7 @@ from main.characterSelection import *
 
 """ Custom Imports """
 # import your modules
+from main.login import login
 from common.Constants import Constants
 from net.ConnectionManager import ConnectionManager
 
