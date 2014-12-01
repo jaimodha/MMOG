@@ -5,6 +5,8 @@ from direct.gui.DirectGui import DirectWaitBar
 from direct.interval.IntervalGlobal import Sequence
 from direct.interval.IntervalGlobal import Parallel
 from direct.interval.ActorInterval import ActorInterval
+from direct.interval.IntervalGlobal import SoundInterval
+from direct.interval.IntervalGlobal import Wait
 from HealthBar import HealthBar
 
 class Swordsman(Character):
@@ -45,31 +47,51 @@ class Swordsman(Character):
 		
 	def basic_attack(self):
 		total_dmg = Swordsman.BASIC_ATK_DMG
-		
+		swing_sound = loader.loadSfx("sound/Swoosh.mp3")
+
 		if self._atk_buff==1:
 			total_dmg *= 1.1
 		elif self._atk_buff==2:
 			total_dmg *= 1.25
 
+		sound_interval = SoundInterval(
+    								swing_sound,
+    								loop = 2 ,
+    								duration = 0.6,
+    								volume = 0.7,
+    								startTime = 0
+									)
 		atk_interval1 = self._character.actorInterval("attack", startFrame=1, endFrame=26)
 		atk_interval2 = self._character.actorInterval("attack", startFrame=56, endFrame=80)
 		seq = Sequence(atk_interval1, atk_interval2)
+		seq2 = Sequence(Wait(0.5), sound_interval, sound_interval)
 		seq.start()
+		seq2.start()
 		
 		return total_dmg
 
 	def special_attack(self):
 		total_dmg = Swordsman.SPECIAL_ATK_DMG
+		swing_sound = loader.loadSfx("sound/Swoosh.mp3")
 			
 		if self._atk_buff==1:
 			total_dmg *= 1.1
 		elif self._atk_buff==2:
 			total_dmg *= 1.25
 
+		sound_interval = SoundInterval(
+    							swing_sound,
+    							loop = 2 ,
+    							duration = 0.8,
+    							volume = 0.7,
+    							startTime = 0
+								)
 		atk_interval1 = self._character.actorInterval("attack", startFrame=1, endFrame=13)
 		atk_interval2 = self._character.actorInterval("attack", startFrame=38, endFrame=80)
 		seq = Sequence(atk_interval1, atk_interval2)
+		seq2 = Sequence(Wait(0.5), sound_interval, sound_interval)
 		seq.start()
+		seq2.start()
 		
 		return total_dmg
 

@@ -6,6 +6,8 @@ from direct.gui.DirectGui import DirectWaitBar
 from direct.interval.IntervalGlobal import Sequence
 from direct.interval.IntervalGlobal import Parallel
 from direct.interval.ActorInterval import ActorInterval
+from direct.interval.IntervalGlobal import SoundInterval
+from direct.interval.IntervalGlobal import Wait
 from HealthBar import HealthBar
 
 class Axeman(Character):
@@ -57,13 +59,23 @@ class Axeman(Character):
         
     def basic_attack(self):
         total_dmg = Axeman.BASIC_ATK_DMG
+        swing_sound = loader.loadSfx("sound/Woosh.wav")
         
         if self._atk_buff==1:
             total_dmg *= 1.1
         elif self._atk_buff==2:
             total_dmg *= 1.25
         # play animation
-        self._character.play("attack")       
+        sound_interval1 = SoundInterval(
+                                    swing_sound,
+                                    loop = 1 ,
+                                    duration = 0,
+                                    volume = 0.7,
+                                    startTime = 0
+                                    )
+        seq2 = Sequence(Wait(0.5),sound_interval1, sound_interval1)
+        self._character.play("attack")
+        seq2.start()
         return total_dmg
 
           
