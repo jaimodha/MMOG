@@ -2,7 +2,7 @@ import random, sys, os, math
 
 from direct.interval.IntervalGlobal import Sequence
 from direct.interval.IntervalGlobal import Parallel
-from direct.interval.ActorInterval import ActorInterval
+from direct.interval.FunctionInterval import Func
 from panda3d.core import Point3
 
 class Character(object):
@@ -65,7 +65,7 @@ class Character(object):
 		angle = angle * math.pi / 180
 		x = self._character.getX() + (math.sin(angle) * self._speed * delta)
 		y = self._character.getY() - (math.cos(angle) * self._speed * delta)
-		if self.checkBoundary():
+		if self.checkBoundary(x, y):
 			self._character.setX( x )
 			self._character.setY( y )
 
@@ -75,20 +75,38 @@ class Character(object):
 		if isMoving:
 			if not self._is_moving:
 				self._is_moving = True
-				self._character.loop("walk")
+				self._character.loop("run")
 		moveInterval = self._character.posInterval(heartbeat, Point3(x, y, z))
 		rotationInterval = self._character.hprInterval(heartbeat, Point3(rotation, 0, 0))
 		sequence = Sequence(Parallel(rotationInterval, moveInterval))
 		if not isMoving:
 			self._is_moving = False
-			#standInterval = self._character.actorInterval("walk", startFrame = 5, endFrame = 5)
-			#sequence.append(standInterval)
-			standInterval = self._character.actorInterval("idle")
+			standInterval = Func(self.idle)
 			sequence.append(standInterval)
 		sequence.start()
 
-	def checkBoundary(self):
-		return True
+	def idle(self):
+		self._character.loop("idle")
+
+	def checkBoundary(self, x, y):
+		within = False
+		if(self.checkRectangle( x, y, 105, 255, -10, 150)):
+			within = True
+		elif(self.checkRectangle( x, y, 32, 105, -7, 12)):
+			within = True
+		elif(self.checkRectangle( x, y, -34, 32, -30, 40)):
+			within = True
+		elif(self.checkRectangle( x, y, -105, -34, -6, 10)):
+			within = True
+		elif(self.checkRectangle( x, y, -270, -105, -10, 150)):
+			within = True
+		return within
+	
+	def checkRectangle(self, x, y, minx, maxx, miny, maxy):
+		if ( x > minx and x < maxx and y > miny and y < maxy ):
+			return True
+		else:
+			return False
 	
 	def is_dead(self):
 		return self._is_dead
