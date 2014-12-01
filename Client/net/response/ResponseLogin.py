@@ -5,7 +5,8 @@ from direct.gui.OnscreenText import OnscreenText
 from direct.task import Task
 from net.response.ServerResponse import ServerResponse
 
-#from main.login import *
+from main.selectcharandteamtype import *
+#from login import *
 #from main.characterSelection import characterSelection
 #from net.ConnectionManager import ConnectionManager
 
@@ -14,14 +15,14 @@ class ResponseLogin(ServerResponse):
     def execute(self, data):
 
         try:
-            self.status = data.getString()
-            self.username = data.getString()
+            self.status = data.getInt()
+            #self.username = data.getString()
             print "ResponseLogin - ", self.status
             
-            if(self.status == "Authorized"):
+            if(self.status == 1):
                 print "logged In!"
-                #c = characterSelection()
-            elif self.status == "UnAuthorized":
+                c = selectcharandteamtype()
+            elif self.status == 0:
                 print "incorrect username/password"
                 #self.l = login2()
                 #self.l.throwIncorrectUsername()
