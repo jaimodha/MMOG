@@ -179,24 +179,19 @@ class World(DirectObject):
     def attack(self, attack_id):
         self.cManager.sendRequest(Constants.CMSG_ATTACK, attack_id)
         targets = self.find_target()
-        """
-        if isinstance(self.player, Swordsman):
-                print "Swordsman instance"
-        elif isinstance(self.player, Axeman):
-            print "Axeman instance"
-        elif isinstance(self.player, Character):
-            print "Character instance"
-        """
         print targets
         damage=0
+        AOE = False
         if attack_id==3:
             damage = self.player.basic_attack()
         elif attack_id==4:
             damage = self.player.special_attack()
+            if isinstance(self.player, Axeman):
+                AOE=True
         #if targets != None:
-        if targets and isinstance(self.player, Swordsman):
+        if targets and not AOE:
             self.cManager.sendRequest(Constants.CMSG_HEALTH, [targets[0], damage])
-        elif targets and isinstance(self.player, Axeman):
+        elif targets and isinstance(self.player, Axeman) and AOE:
             for i in range(len(targets)):
                 self.cManager.sendRequest(Constants.CMSG_HEALTH, [targets[i], damage])
 
