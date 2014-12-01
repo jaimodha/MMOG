@@ -20,6 +20,7 @@ from Swordsman import Swordsman
 from Axeman import Axeman
 from Chat import Chat
 from miniMap import *
+import operator
 
 from common.Constants import Constants
 from net.ConnectionManager import ConnectionManager
@@ -177,7 +178,7 @@ class World(DirectObject):
     
     def attack(self, attack_id):
         self.cManager.sendRequest(Constants.CMSG_ATTACK, attack_id)
-        target = self.find_target()
+        targets = self.find_target()
         """
         if isinstance(self.player, Swordsman):
                 print "Swordsman instance"
@@ -186,14 +187,18 @@ class World(DirectObject):
         elif isinstance(self.player, Character):
             print "Character instance"
         """
-        print target
+        print targets
         damage=0
         if attack_id==3:
             damage = self.player.basic_attack()
         elif attack_id==4:
             damage = self.player.special_attack()
-        if target != None:
-            self.cManager.sendRequest(Constants.CMSG_HEALTH, [target, damage])
+        #if targets != None:
+        if targets and isinstance(self.player, Swordsman):
+            self.cManager.sendRequest(Constants.CMSG_HEALTH, [targets[0], damage])
+        elif targets and isinstance(self.player, Axeman):
+            for i in range(len(targets)):
+                self.cManager.sendRequest(Constants.CMSG_HEALTH, [targets[i], damage])
 
     def find_target(self):
         """
@@ -256,7 +261,7 @@ class World(DirectObject):
         ncx = cx/cl
         ncy = cy/cl
 
-        target = None
+        targets = []
         candidates={}
         for name, other in self.characters.iteritems():
             tx = other._character.getX()
@@ -288,12 +293,16 @@ class World(DirectObject):
 
             if candidates:
                 if num_of_targets==1:
-                    target = min(candidates, key=candidates.get)
+                    targets.append(min(candidates, key=candidates.get))
                 elif num_of_targets==3:
-                    sorted_candidates=sorted(candidates.items(), reverse=True)
-                    print sorted_candidates
+                    #sorted_candidates=sorted(candidates.items(), key=operator.itemgetter(1))
+                    for i in range(0,3):
+                        if candidates:
+                            min_target=min(candidates, key=candidates.get)
+                            del candidates[min_target]
+                            targets.append(min_target)
 
-        return target
+        return targets
 
     def distance(self, ux, uy, vx, vy):
         dx = math.fabs(ux-vx)
