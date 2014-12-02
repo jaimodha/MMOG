@@ -27,7 +27,7 @@ class ResponseLogin(ServerResponse):
                                     main.player = Axeman(self.username, self.faction)
 
                         main.player._character.reparentTo(render)
-                        main.player._character.setScale(.1)
+                        main.player._character.setScale(.4)
                         #main.player._character.setPos(swordsmanStartPos)
                         main.player._character.setPos(0,0,0)
                         #swordsmanStartPos.setY(swordsmanStartPos.getY())
@@ -47,7 +47,7 @@ class ResponseLogin(ServerResponse):
                                     main.characters[self.username] = Axeman(self.username, self.faction)
 
                         main.characters[self.username]._character.reparentTo(render)
-                        main.characters[self.username]._character.setScale(.1)
+                        main.characters[self.username]._character.setScale(.4)
                         main.characters[self.username]._character.setPos(0,0,0)
                         #main.characters[self.username]._character.setPos(swordsmanStartPos)
                         #swordsmanStartPos.setY(swordsmanStartPos.getY())
