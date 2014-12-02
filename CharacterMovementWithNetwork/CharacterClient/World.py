@@ -58,6 +58,7 @@ class World(DirectObject):
         self.money.reparentTo(render)
         
         self.environ.setPos(0,0,0)
+        self.environ.setH(90)
         
         ## swordsmanStartPos = self.environ.find("**/start_point").getPos()
         ## self.player = Swordsman("Swordsman", 0)
@@ -133,6 +134,7 @@ class World(DirectObject):
 
         main.miniMap.updateHeroPos(self.player._character.getX(), self.player._character.getY())
         main.miniMap.updateHeroHpr(self.player._character.getH())
+        main.miniMap.resizeScreen(base.win.getXSize(), base.win.getYSize())
 
         base.camera.lookAt(self.player._character)
         if (self.keyMap["cam-left"]!=0):
@@ -177,6 +179,7 @@ class World(DirectObject):
 
     
     def attack(self, attack_id):
+        self.player._is_attacking = True
         self.cManager.sendRequest(Constants.CMSG_ATTACK, attack_id)
         targets = self.find_target()
         print targets

@@ -8,6 +8,7 @@ from direct.interval.IntervalGlobal import Parallel
 from direct.interval.ActorInterval import ActorInterval
 from direct.interval.IntervalGlobal import SoundInterval
 from direct.interval.IntervalGlobal import Wait
+from direct.interval.IntervalGlobal import Func
 from HealthBar import HealthBar
 
 class Axeman(Character):
@@ -74,8 +75,14 @@ class Axeman(Character):
                                     startTime = 0
                                     )
         seq2 = Sequence(Wait(0.5),sound_interval1, sound_interval1)
-        self._character.play("attack")
+        #self._character.play("attack")
+        atk_interval = self._character.actorInterval("attack")
+        seq = Sequence(atk_interval)
+        if self._is_moving:
+            seq.append(Func(self.loop_run))
+        seq.start()
         seq2.start()
+
         return total_dmg
 
           
@@ -87,9 +94,18 @@ class Axeman(Character):
         elif self._atk_buff==2:
             total_dmg *= 1.25
          
-        self._character.play("special",fromFrame = 10)        
+        #self._character.play("special",fromFrame = 10)
+        atk_interval = self._character.actorInterval("special", startFrame=10)
+        seq = Sequence(atk_interval)
+        if self._is_moving:
+            seq.append(Func(self.loop_run))
+        seq.start()
+
         return total_dmg
              
+    def loop_run(self):
+        self._character.loop("run")
+
     def apply_def_buff(self):
         if not self._is_dead:
             health = Character.get_health(self)

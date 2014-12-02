@@ -7,6 +7,7 @@ from direct.interval.IntervalGlobal import Parallel
 from direct.interval.ActorInterval import ActorInterval
 from direct.interval.IntervalGlobal import SoundInterval
 from direct.interval.IntervalGlobal import Wait
+from direct.interval.IntervalGlobal import Func
 from HealthBar import HealthBar
 
 class Swordsman(Character):
@@ -64,6 +65,8 @@ class Swordsman(Character):
 		atk_interval1 = self._character.actorInterval("attack", startFrame=1, endFrame=26)
 		atk_interval2 = self._character.actorInterval("attack", startFrame=56, endFrame=80)
 		seq = Sequence(atk_interval1, atk_interval2)
+		if self._is_moving:
+			seq.append(Func(self.loop_run))
 		seq2 = Sequence(Wait(0.5), sound_interval, sound_interval)
 		seq.start()
 		seq2.start()
@@ -89,11 +92,16 @@ class Swordsman(Character):
 		atk_interval1 = self._character.actorInterval("attack", startFrame=1, endFrame=13)
 		atk_interval2 = self._character.actorInterval("attack", startFrame=38, endFrame=80)
 		seq = Sequence(atk_interval1, atk_interval2)
+		if self._is_moving:
+			seq.append(Func(self.loop_run))
 		seq2 = Sequence(Wait(0.5), sound_interval, sound_interval)
 		seq.start()
 		seq2.start()
 		
 		return total_dmg
+
+	def loop_run(self):
+		self._character.loop("run")
 
 	def take_damage(self, health_change):
 		health = Character.get_health(self)

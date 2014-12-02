@@ -36,7 +36,7 @@ class ResponseLogin(ServerResponse):
                         main.base.camera.setPos(main.player._character.getX(),main.player._character.getY()+10,2)
 
                         main.miniMap = miniMap(main.player._character)
-                        main.tower1 = main.miniMap.setTower("tower1", 0.05, 0.5, -0.5)
+                        main.tower1 = main.miniMap.setTower("tower1", 0.15, 0.5, -0.5)
                         
             else:
                         #swordsmanStartPos = main.environ.find("**/start_point").getPos()
