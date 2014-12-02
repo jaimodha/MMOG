@@ -59,6 +59,11 @@ class World(DirectObject):
         
         self.environ.setPos(0,0,0)
         self.environ.setH(90)
+        self.swordLeft.setH(90)
+        self.swordRight.setH(90)
+        self.shieldLeft.setH(90)
+        self.shieldRight.setH(90)
+        self.money.setH(90)
         
         ## swordsmanStartPos = self.environ.find("**/start_point").getPos()
         ## self.player = Swordsman("Swordsman", 0)
@@ -169,7 +174,7 @@ class World(DirectObject):
             ## base.camera.setPos(base.camera.getPos() - camvec*(5-camdist))
             ## camdist = 5.0
         
-        base.camera.setPos(self.player._character.getX(),self.player._character.getY()+10,2)
+        base.camera.setPos(self.player._character.getX(),self.player._character.getY()+70,40)
         
         self.floater.setPos(self.player._character.getPos())
         self.floater.setZ(self.player._character.getZ() + 2.0)
