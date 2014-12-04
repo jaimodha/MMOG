@@ -11,15 +11,15 @@ from direct.interval.IntervalGlobal import Func
 from HealthBar import HealthBar
 
 class Swordsman(Character):
-	ATK_RANGE = 3;
-	BASIC_ATK_DMG = 15
-	SPECIAL_ATK_DMG = 30
-	MOVE_SPEED = 10
-	CHARGE_SPEED = 15
-	MAX_HEALTH = 100
-	FOV = 45
+    ATK_RANGE = 3
+    BASIC_ATK_DMG = 15
+    SPECIAL_ATK_DMG = 30
+    MOVE_SPEED = 10
+    CHARGE_SPEED = 15
+    MAX_HEALTH = 100
+    FOV = 45
 
-	def __init__(self, *args):
+    def __init__(self, *args):
 		super(Swordsman, self).__init__(*args)
 		Character.set_health(self, Swordsman.MAX_HEALTH)
 		Character.set_speed(self, Swordsman.MOVE_SPEED)
@@ -42,11 +42,17 @@ class Swordsman(Character):
 			actor.setTexture(ts, tex, 1)
 		
 		Character.set_actor(self, actor)
-
 		self.hb = HealthBar(1.5, value=Swordsman.MAX_HEALTH)
 		self.hb.reparentTo(self._character)
 		
-	def basic_attack(self):
+		self.model = loader.loadModel("models/circle")
+		self.model.setTransparency(True)
+		self.model.reparentTo(self._character)
+		self.model.setAlphaScale(0.5)
+		self.model.setScale(2)
+		self.model.setPos(0, 0, -10)
+		
+    def basic_attack(self):
 		total_dmg = Swordsman.BASIC_ATK_DMG
 		swing_sound = loader.loadSfx("sound/Swoosh.mp3")
 
@@ -73,7 +79,7 @@ class Swordsman(Character):
 		
 		return total_dmg
 
-	def special_attack(self):
+    def special_attack(self):
 		total_dmg = Swordsman.SPECIAL_ATK_DMG
 		swing_sound = loader.loadSfx("sound/Swoosh.mp3")
 			
@@ -100,10 +106,10 @@ class Swordsman(Character):
 		
 		return total_dmg
 
-	def loop_run(self):
+    def loop_run(self):
 		self._character.loop("run")
 
-	def take_damage(self, health_change):
+    def take_damage(self, health_change):
 		health = Character.get_health(self)
 		if health < health_change and not self._is_dead:
 			Character.set_health(self, 0)
@@ -118,7 +124,7 @@ class Swordsman(Character):
 			self.hb.setValue(Character.get_health(self)-health_change)
 			self._character.play("hurt")
 
-	def apply_def_buff(self):
+    def apply_def_buff(self):
 		if not self._is_dead:
 			health = Character.get_health(self)
 			if self._def_buff==1:
@@ -128,7 +134,7 @@ class Swordsman(Character):
 				Character.set_health(self, health*1.25)
 				Swordsman.MAX_HEALTH = Swordsman.MAX_HEALTH*1.25
 
-	def unapply_def_buff(self):
+    def unapply_def_buff(self):
 		if not self._is_dead:
 			if self._def_buff==0:
 				Swordsman.MAX_HEALTH = 100
@@ -139,7 +145,7 @@ class Swordsman(Character):
 			if health > Swordsman.MAX_HEALTH:
 					health = Swordsman.MAX_HEALTH
 
-	def animate(self, anim_type):
+    def animate(self, anim_type):
 		if anim_type==0:
 			self._character.loop("idle")
 		elif anim_type==1:
