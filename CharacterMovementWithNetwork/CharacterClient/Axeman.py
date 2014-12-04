@@ -57,6 +57,14 @@ class Axeman(Character):
 
         self.hb = HealthBar(1.5, value=Axeman.MAX_HEALTH)
         self.hb.reparentTo(self._character)
+		
+        model = loader.loadModel("models/circle")
+        model.setTransparency(True)
+        model.reparentTo(self._character)
+        model.setAlphaScale(0.5)
+        model.setScale(2)
+        model.setPos(0, 0, -10)
+		
         
     def basic_attack(self):
         total_dmg = Axeman.BASIC_ATK_DMG
