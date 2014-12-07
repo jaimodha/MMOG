@@ -24,3 +24,5 @@ class Constants:
     SMSG_HEALTH                         = 208
     
     REQ_HEARTBEAT                       = 301
+    SMSG_RENDER_CHARACTER               = 310
+    SMSG_REMOVE_CHARACTER               = 311
