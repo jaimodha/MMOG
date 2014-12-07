@@ -9,6 +9,8 @@ from net.response.ResponseCharacterAttack import ResponseCharacterAttack
 from net.response.ResponseCharacterChangeHealth import ResponseCharacterChangeHealth
 from net.response.ResponseChat import ResponseChat
 from net.response.ResponseLogin import ResponseLogin
+from net.response.ResponseRenderCharacter import ResponseRenderCharacter
+from net.response.ResponseRemoveCharacter import ResponseRemoveCharacter
 
 class ServerResponseTable:
     """
@@ -28,6 +30,8 @@ class ServerResponseTable:
         self.add(Constants.SMSG_ATTACK, 'ResponseCharacterAttack')
         self.add(Constants.SMSG_CHAT, 'ResponseChat')
         self.add(Constants.SMSG_HEALTH, 'ResponseCharacterChangeHealth')
+        self.add(Constants.SMSG_RENDER_CHARACTER, 'ResponseRenderCharacter')
+        self.add(Constants.SMSG_REMOVE_CHARACTER, 'ResponseRemoveCharacter')
 
     def add(self, constant, name):
         """Map a numeric response code with the name of an existing response module."""
