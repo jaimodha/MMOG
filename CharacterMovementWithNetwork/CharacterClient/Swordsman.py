@@ -36,10 +36,14 @@ class Swordsman(Character):
 			tex = loader.loadTexture("models/textures/swordsman_red.png")
 			ts = actor.findTextureStage('*')
 			actor.setTexture(ts, tex, 1)
+			#ts = actor.findTextureStage('ts')
+			#actor.setTexture(ts, tex)
 		elif team == 1:
 			tex = loader.loadTexture("models/textures/swordsman_blue.png")
 			ts = actor.findTextureStage('*')
 			actor.setTexture(ts, tex, 1)
+			#ts = actor.findTextureStage('ts')
+			#actor.setTexture(ts, tex)
 		
 		Character.set_actor(self, actor)
 		self.hb = HealthBar(1.5, value=Swordsman.MAX_HEALTH)
@@ -117,6 +121,7 @@ class Swordsman(Character):
 			hurt_interval = self._character.actorInterval("hurt")
 			death_interval = self._character.actorInterval("die")
 			seq = Sequence(hurt_interval, death_interval)
+			# add Func interval to place the character at a new location
 			seq.start()
 			self._is_dead = True
 		else:

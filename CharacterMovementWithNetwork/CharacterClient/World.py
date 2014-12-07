@@ -117,8 +117,15 @@ class World(DirectObject):
         directionalLight.setDirection(Vec3(-5, -5, -5))
         directionalLight.setColor(Vec4(1, 1, 1, 1))
         directionalLight.setSpecularColor(Vec4(1, 1, 1, 1))
+
+        directionalLight2 = DirectionalLight("directionalLight2")
+        directionalLight2.setDirection(Vec3(5, 5, 5))
+        directionalLight2.setColor(Vec4(1, 1, 1, 1))
+        directionalLight2.setSpecularColor(Vec4(1, 1, 1, 1))
+
         render.setLight(render.attachNewNode(ambientLight))
         render.setLight(render.attachNewNode(directionalLight))
+        render.setLight(render.attachNewNode(directionalLight2))
 
         Chat(self.cManager)
         
@@ -187,7 +194,7 @@ class World(DirectObject):
         self.player._is_attacking = True
         self.cManager.sendRequest(Constants.CMSG_ATTACK, attack_id)
         targets = self.find_target()
-        print targets
+        #print targets
         damage=0
         AOE = False
         if attack_id==3:

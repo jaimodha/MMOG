@@ -19,6 +19,8 @@ public class Constants {
     public final static short CMSG_SAVE_EXIT_GAME = 119;
     public final static short SMSG_SAVE_EXIT_GAME = 219;
     public final static short REQ_HEARTBEAT = 301;
+    public final static short SMSG_RENDER_CHARACTER = 310;
+    public final static short SMSG_REMOVE_CHARACTER = 311;
     public final static short SMSG_CREATE_ENV = 329;
 
     //Test Request + Response
