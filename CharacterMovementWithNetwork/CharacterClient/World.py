@@ -143,7 +143,7 @@ class World(DirectObject):
         self.keyMap[key] = value
         
     def move(self, task):
-
+        print self.player._character.getPos()
         main.miniMap.updateHeroPos(self.player._character.getX(), self.player._character.getY())
         main.miniMap.updateHeroHpr(self.player._character.getH())
         main.miniMap.resizeScreen(base.win.getXSize(), base.win.getYSize())
@@ -301,16 +301,16 @@ class World(DirectObject):
                 if (p_team != other.get_team()) and (not other._is_dead):
                     candidates[name]=d
 
-            if candidates:
-                if num_of_targets==1:
-                    targets.append(min(candidates, key=candidates.get))
-                elif num_of_targets==3:
-                    #sorted_candidates=sorted(candidates.items(), key=operator.itemgetter(1))
-                    for i in range(0,3):
-                        if candidates:
-                            min_target=min(candidates, key=candidates.get)
-                            del candidates[min_target]
-                            targets.append(min_target)
+        if candidates:
+            if num_of_targets==1:
+                targets.append(min(candidates, key=candidates.get))
+            elif num_of_targets==3:
+                #sorted_candidates=sorted(candidates.items(), key=operator.itemgetter(1))
+                for i in range(0,3):
+                    if candidates:
+                        min_target=min(candidates, key=candidates.get)
+                        del candidates[min_target]
+                        targets.append(min_target)
 
         return targets
 

@@ -12,18 +12,18 @@ class HealthBar(NodePath):
                 
                 
                 cmbg = CardMaker('bg') 
-                cmbg.setFrame(- scale, scale, -0.1 * scale, 0.1 * scale) 
+                cmbg.setFrame(- scale, scale, -0.1 * scale, 0.1 * scale)
                 self.bg = self.attachNewNode(cmbg.generate())
  
-                self.bg.setColor(0.2, 0.2, 0.2, 1) 
-                self.bg.setPos(0,0,5.8)
+                self.bg.setColor(0.2, 0.2, 0.2, 1)
+                self.bg.setPos(0,0,7.1)
                 
                 
                 cmfg = CardMaker('fg') 
                 cmfg.setFrame(- scale,  scale, -0.1 * scale, 0.1 * scale)
                 self.fg = self.bg.attachNewNode(cmfg.generate()) 
                
-                self.fg.setColor(r, g, b, 1)             
+                self.fg.setColor(r, g, b, 1) 
                 self.fg.setPos(0,-0.1,0)
                 self.fg.setBillboardPointWorld()
                 self.bg.setBillboardPointWorld()

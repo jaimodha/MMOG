@@ -87,7 +87,7 @@ class Axeman(Character):
         atk_interval = self._character.actorInterval("attack")
         seq = Sequence(atk_interval)
         if self._is_moving:
-            seq.append(Func(self.loop_run))
+            seq.append(Func(self.animate, 2))
         seq.start()
         seq2.start()
 
@@ -106,13 +106,10 @@ class Axeman(Character):
         atk_interval = self._character.actorInterval("special", startFrame=10)
         seq = Sequence(atk_interval)
         if self._is_moving:
-            seq.append(Func(self.loop_run))
+            seq.append(Func(self.animate, 2))
         seq.start()
 
         return total_dmg
-             
-    def loop_run(self):
-        self._character.loop("run")
 
     def apply_def_buff(self):
         if not self._is_dead:

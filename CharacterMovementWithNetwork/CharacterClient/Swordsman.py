@@ -33,12 +33,30 @@ class Swordsman(Character):
 
 		team = Character.get_team(self)
 		if team == 0:
+			"""
+			actor = Actor("models/swordsman_red", 
+						{"idle": "models/swordsman-idle", 
+						 "walk": "models/swordsman-walk", 
+						 "run": "models/swordsman-run", 
+						 "hurt": "models/swordsman-hurt", 
+						 "die": "models/swordsman-die", 
+						 "attack": "models/swordsman-attack"})
+			"""
 			tex = loader.loadTexture("models/textures/swordsman_red.png")
 			ts = actor.findTextureStage('*')
 			actor.setTexture(ts, tex, 1)
 			#ts = actor.findTextureStage('ts')
 			#actor.setTexture(ts, tex)
 		elif team == 1:
+			"""
+			actor = Actor("models/swordsman_blue", 
+						{"idle": "models/swordsman-idle", 
+						 "walk": "models/swordsman-walk", 
+						 "run": "models/swordsman-run", 
+						 "hurt": "models/swordsman-hurt", 
+						 "die": "models/swordsman-die", 
+						 "attack": "models/swordsman-attack"})
+			"""
 			tex = loader.loadTexture("models/textures/swordsman_blue.png")
 			ts = actor.findTextureStage('*')
 			actor.setTexture(ts, tex, 1)
@@ -46,7 +64,7 @@ class Swordsman(Character):
 			#actor.setTexture(ts, tex)
 		
 		Character.set_actor(self, actor)
-		self.hb = HealthBar(1.5, value=Swordsman.MAX_HEALTH)
+		self.hb = HealthBar(2.0, value=Swordsman.MAX_HEALTH)
 		self.hb.reparentTo(self._character)
 		
 		self.model = loader.loadModel("models/circle")
@@ -76,7 +94,7 @@ class Swordsman(Character):
 		atk_interval2 = self._character.actorInterval("attack", startFrame=56, endFrame=80)
 		seq = Sequence(atk_interval1, atk_interval2)
 		if self._is_moving:
-			seq.append(Func(self.loop_run))
+			seq.append(Func(self.animate, 2))
 		seq2 = Sequence(Wait(0.5), sound_interval, sound_interval)
 		seq.start()
 		seq2.start()
@@ -103,15 +121,12 @@ class Swordsman(Character):
 		atk_interval2 = self._character.actorInterval("attack", startFrame=38, endFrame=80)
 		seq = Sequence(atk_interval1, atk_interval2)
 		if self._is_moving:
-			seq.append(Func(self.loop_run))
+			seq.append(Func(self.animate, 2))
 		seq2 = Sequence(Wait(0.5), sound_interval, sound_interval)
 		seq.start()
 		seq2.start()
 		
 		return total_dmg
-
-    def loop_run(self):
-		self._character.loop("run")
 
     def take_damage(self, health_change):
 		health = Character.get_health(self)
