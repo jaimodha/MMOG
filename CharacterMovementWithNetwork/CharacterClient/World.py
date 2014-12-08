@@ -43,7 +43,7 @@ class World(DirectObject):
         base.win.setClearColor(Vec4(0,0,0,1))
         
         #self.environ = loader.loadModel("models/world")
-        self.environ = loader.loadModel("models/Land") 
+        self.environ = loader.loadModel("models/land") 
         self.swordLeft = loader.loadModel("models/Sword_Left")
         self.swordRight = loader.loadModel("models/Sword_Right")  
         self.shieldLeft = loader.loadModel("models/Shield_Left")  
