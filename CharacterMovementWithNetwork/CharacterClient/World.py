@@ -15,12 +15,14 @@ from direct.interval.IntervalGlobal import Parallel
 from direct.interval.ActorInterval import ActorInterval
 from panda3d.core import Point3
 
-from Character import Character
+#from Character import Character
 from Swordsman import Swordsman
 from Axeman import Axeman
 from Chat import Chat
 from miniMap import *
 import operator
+from ControlPoint import *
+from statusbar import *
 
 from common.Constants import Constants
 from net.ConnectionManager import ConnectionManager
@@ -39,6 +41,7 @@ class World(DirectObject):
         self.keyMap = {"left":0, "right":0, "forward":0, "backward":0, "cam-left":0, "cam-right":0}
         
         self.characters = dict()
+        self.cpList = dict()
         
         base.win.setClearColor(Vec4(0,0,0,1))
         
@@ -128,6 +131,29 @@ class World(DirectObject):
         render.setLight(render.attachNewNode(directionalLight2))
 
         Chat(self.cManager)
+        
+        
+        
+        
+        # Create two control points
+        cp1 = ControlPoint(1, -107.575, 0.6066, 0.490075, 10, RED)
+        cp2 = ControlPoint(2, -100.575, -35.6066, 0.090075, 10, BLUE)
+
+        self.cpList[1] = cp1
+        self.cpList[2] = cp2
+            
+        # Create the control point Bar UI
+        self.cp_bar = ControlPointBar()
+        self.resource_bar = ResourceBar()
+
+        taskMgr.doMethodLater(0.1, self.refresh, "heartbeat")
+        taskMgr.doMethodLater(1, self.CPHandler, "CPHandler")
+        taskMgr.doMethodLater(0.1, self.CPBarHandler, 'CPBarHandler')
+        
+        
+        
+        
+        
         
     def startConnection(self):
         if self.cManager.connection == None:
@@ -345,6 +371,46 @@ class World(DirectObject):
 
     def dot(self, ux, uy, vx, vy):
         return (ux*vx)+(uy*vy)
+    
+    #---------------------------------------------------------------------
+    # This is the start of the control point code.
+    #---------------------------------------------------------------------
+    
+    def inWhichControlPoint(self):
+        for cp in self.cpList.values():
+            if cp.withinCircle(self.player._character):
+                return cp
+        return None
+    
+    def CPBarHandler(self, task):
+        # This is where you check to see if you are in a control point 
+        # to render the bar or not
+        
+        currentCP = self.inWhichControlPoint()
+
+        if currentCP is not None:
+            self.cp_bar.show()
+            self.cp_bar.setValue(currentCP.timer)
+        else:
+            self.cp_bar.hide()
+        
+        return task.again
+    
+    
+    def CPHandler(self, task):
+        # Change colors of control points to match their faction
+        for cp in self.cpList.values():
+            if cp.timer == 0:
+                cp.model.setColor(0,0,255)
+            if cp.timer == 30:
+                cp.model.setColor(255,0,0)
+
+        return task.again;
+    
+    
+    #---------------------------------------------------------------------
+    # This is the end of the control point code.
+    #---------------------------------------------------------------------
     
 w = World()
 run()

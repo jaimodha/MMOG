@@ -1,3 +1,6 @@
+RED = 0
+BLUE = 1
+
 import random, sys, os, math
 
 from direct.interval.IntervalGlobal import Sequence
@@ -122,6 +125,9 @@ class Character(object):
 
 	def get_player(self):
 		return self._player
+		
+	def get_character(self):
+		return self._character
 
 	def get_kills(self):
 		return self._total_kills

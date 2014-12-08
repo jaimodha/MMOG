@@ -15,11 +15,14 @@ import java.util.List;
 
 // Custom Imports
 import configuration.GameServerConf;
+import metadata.Constants;
 //import dataAccessLayer.DAO;
 import metadata.GameRequestTable;
 //import model.Player;
 import networking.response.GameResponse;
 import utility.ConfFileParser;
+import model.ControlPoint;
+
 
 /**
  * The GameServer class serves as the main module that runs the server.
@@ -33,6 +36,7 @@ public class GameServer {
     private GameServerConf configuration; // Stores server config. variables
     private boolean ready = false; // Used to keep server looping
     private HashMap<Long, GameClient> activeThreads = new HashMap<Long, GameClient>(); // Stores active threads by thread ID
+	private HashMap<Integer, ControlPoint> cpList = new HashMap<Integer, ControlPoint>();
     //private HashMap<Integer, Player> activePlayers = new HashMap<Integer, Player>(); // Stores active players by player ID
 
     /**
@@ -44,6 +48,13 @@ public class GameServer {
 
         // Initialize the table with request codes and classes for static retrieval
         GameRequestTable.init();
+		
+		// Initialize Control Points
+        ControlPoint cp1 = new ControlPoint(1, 30, Constants.RED);
+        ControlPoint cp2 = new ControlPoint(2, 0, Constants.BLUE);
+        
+        cpList.put(cp1.getCpId(), cp1);
+        cpList.put(cp2.getCpId(), cp2);
 
         // Initialize database connection
        /* if (DAO.getInstance() == null) {
@@ -156,6 +167,10 @@ public class GameServer {
     
     public List<GameClient> getActiveThreads(){
     	return new ArrayList<GameClient>(activeThreads.values());
+    }
+	
+	public HashMap<Integer, ControlPoint> getCPList(){
+    	return cpList;
     }
     
     /*public List<Player> getActivePlayers() {

@@ -35,6 +35,7 @@ public class GameRequestTable {
         add(Constants.CMSG_ATTACK, "RequestCharacterAttack");
         add(Constants.CMSG_HEALTH, "RequestCharacterChangeHealth");
         add(Constants.REQ_HEARTBEAT, "RequestHeartbeat");
+		add(Constants.CMSG_CONTROL_POINT_STATE, "RequestCP");
     }
 
     /**

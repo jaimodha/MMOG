@@ -16,6 +16,8 @@ public class Constants {
     public final static short SMSG_ATTACK = 207;
     public final static short CMSG_HEALTH = 108;
     public final static short SMSG_HEALTH = 208;
+	public final static short CMSG_CONTROL_POINT_STATE = 111;
+    public final static short SMSG_CONTROL_POINT_STATE = 211;
     public final static short CMSG_SAVE_EXIT_GAME = 119;
     public final static short SMSG_SAVE_EXIT_GAME = 219;
     public final static short REQ_HEARTBEAT = 301;
@@ -32,4 +34,6 @@ public class Constants {
     public static final int SAVE_INTERVAL = 60000;
     public static final String CLIENT_VERSION = "1.00";
     public static final int TIMEOUT_SECONDS = 90;
+    public static final int RED = 0;
+    public static final int BLUE = 1;
 }
