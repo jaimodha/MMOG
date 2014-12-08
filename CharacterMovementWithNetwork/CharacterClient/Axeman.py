@@ -145,7 +145,8 @@ class Axeman(Character):
             self._is_dead = True
         else:
             Character.set_health(self, health-health_change)
-            self.hb.setValue(Character.get_health(self)-health_change)
+            #self.hb.setValue(Character.get_health(self)-health_change)
+            self.hb.setValue(Character.get_health(self))
             self._character.play("hurt")
 
     def animate(self, anim_type):
