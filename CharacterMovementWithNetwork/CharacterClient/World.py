@@ -143,7 +143,7 @@ class World(DirectObject):
         self.keyMap[key] = value
         
     def move(self, task):
-        print self.player._character.getPos()
+        #print self.player._character.getPos()
         main.miniMap.updateHeroPos(self.player._character.getX(), self.player._character.getY())
         main.miniMap.updateHeroHpr(self.player._character.getH())
         main.miniMap.resizeScreen(base.win.getXSize(), base.win.getYSize())
@@ -154,21 +154,42 @@ class World(DirectObject):
         if (self.keyMap["cam-right"]!=0):
             base.camera.setX(base.camera, +20 * globalClock.getDt())
         
-        self.player.move(self.keyMap["forward"], self.keyMap["backward"], self.keyMap["left"], self.keyMap["right"], globalClock.getDt())
-            
-        if (self.keyMap["forward"]!=0) or (self.keyMap["left"]!=0) or (self.keyMap["right"]!=0) or (self.keyMap["backward"]!=0):
-            if self.player._is_moving is False:
-                self.player._character.loop("run")
-                self.player._is_moving = True
-            self.cManager.sendRequest(Constants.CMSG_MOVE, [self.player._character.getX(), self.player._character.getY(), self.player._character.getZ(), self.player._character.getH(), 1])
-            #self.characters["Axeman"].moveActor(self.player._character.getX(), self.player._character.getY() - 10, self.player._character.getZ(), self.player._character.getH(), True, globalClock.getDt())
+        if self.player._is_moving == 2:
+            if self.player.get_team()==0:
+                self.cManager.sendRequest(Constants.CMSG_MOVE, [254.271, 6.72015, 0, self.player._character.getH(), 2])
+                self.player._character.setPos(254.271, 6.72015, 0)
+                # Move this code to a spawn fucntion
+                #self.player._is_moving = False
+                #self.player._is_dead = False
+                #self.player.set_health(Swordsman.MAX_HEALTH)
+                if isinstance(self.player, Swordsman):
+                    self.cManager.sendRequest(Constants.CMSG_HEALTH, [self.player.get_name(), (-1)*int(Swordsman.MAX_HEALTH)])
+                elif isinstance(self.player, Axeman):
+                    self.cManager.sendRequest(Constants.CMSG_HEALTH, [self.player.get_name(), (-1)*int(Axeman.MAX_HEALTH)])
+                #self.player.hb.setValue(self.player.get_health())
+            elif self.player.get_team()==1:
+                self.cManager.sendRequest(Constants.CMSG_MOVE, [-268.27, 8.0602, 0, self.player._character.getH(), 2])
+                self.player._character.setPos(-268.27, 8.0602, 0)
+                if isinstance(self.player, Swordsman):
+                    self.cManager.sendRequest(Constants.CMSG_HEALTH, [self.player.get_name(), (-1)*int(Swordsman.MAX_HEALTH)])
+                elif isinstance(self.player, Axeman):
+                    self.cManager.sendRequest(Constants.CMSG_HEALTH, [self.player.get_name(), (-1)*int(Axeman.MAX_HEALTH)])
         else:
-            if self.player._is_moving:
-                #self.player.character.stop()
-                self.player._character.loop("idle")
-                self.player._is_moving = False
-                self.cManager.sendRequest(Constants.CMSG_MOVE, [self.player._character.getX(), self.player._character.getY(), self.player._character.getZ(), self.player._character.getH(), 0])
-                #self.characters["Axeman"].moveActor(self.player._character.getX(), self.player._character.getY() - 10, self.player._character.getZ(), self.player._character.getH(), False, globalClock.getDt())
+            self.player.move(self.keyMap["forward"], self.keyMap["backward"], self.keyMap["left"], self.keyMap["right"], globalClock.getDt())
+                
+            if (self.keyMap["forward"]!=0) or (self.keyMap["left"]!=0) or (self.keyMap["right"]!=0) or (self.keyMap["backward"]!=0):
+                if self.player._is_moving is False:
+                    self.player._character.loop("run")
+                    self.player._is_moving = True
+                self.cManager.sendRequest(Constants.CMSG_MOVE, [self.player._character.getX(), self.player._character.getY(), self.player._character.getZ(), self.player._character.getH(), 1])
+                #self.characters["Axeman"].moveActor(self.player._character.getX(), self.player._character.getY() - 10, self.player._character.getZ(), self.player._character.getH(), True, globalClock.getDt())
+            else:
+                if self.player._is_moving:
+                    #self.player.character.stop()
+                    self.player._character.loop("idle")
+                    self.player._is_moving = False
+                    self.cManager.sendRequest(Constants.CMSG_MOVE, [self.player._character.getX(), self.player._character.getY(), self.player._character.getZ(), self.player._character.getH(), 0])
+                    #self.characters["Axeman"].moveActor(self.player._character.getX(), self.player._character.getY() - 10, self.player._character.getZ(), self.player._character.getH(), False, globalClock.getDt())
                 
         ## camvec = self.player.character.getPos() - base.camera.getPos()
         ## camvec.setZ(0)
@@ -206,7 +227,9 @@ class World(DirectObject):
         #if targets != None:
         if targets and not AOE:
             self.cManager.sendRequest(Constants.CMSG_HEALTH, [targets[0], damage])
+            #print "non-aoe"
         elif targets and isinstance(self.player, Axeman) and AOE:
+            #print "aoe"
             for i in range(len(targets)):
                 self.cManager.sendRequest(Constants.CMSG_HEALTH, [targets[i], damage])
 

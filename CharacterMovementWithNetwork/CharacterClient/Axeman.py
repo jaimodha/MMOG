@@ -141,6 +141,8 @@ class Axeman(Character):
             hurt_interval = self._character.actorInterval("hurt")
             death_interval = self._character.actorInterval("die")
             seq = Sequence(hurt_interval, death_interval)
+            seq.append(Wait(2))
+            seq.append(Func(self.respawn))
             seq.start()
             self._is_dead = True
         else:
@@ -164,3 +166,7 @@ class Axeman(Character):
             self._character.play("hurt")
         elif anim_type==6:
             self._character.play("die")
+
+    def respawn(self):
+        self._is_moving=2
+        self._character.loop("idle")

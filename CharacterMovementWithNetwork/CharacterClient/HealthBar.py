@@ -36,8 +36,8 @@ class HealthBar(NodePath):
               
 
         def setValue(self, value):
-                self.value = self.buff*.01 + float(value)/self.range * 0.01 
-                self.fg.setScale(self.value * self.scale, 0, self.scale) 
+                self.value = self.buff*.01 + float(value)/self.range * 0.01
+                self.fg.setScale(self.value * self.scale, 0, self.scale)
                 self.fg.setX((self.value - 1) * self.scale * self.scale)
 
                 

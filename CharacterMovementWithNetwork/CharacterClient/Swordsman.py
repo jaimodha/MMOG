@@ -11,15 +11,15 @@ from direct.interval.IntervalGlobal import Func
 from HealthBar import HealthBar
 
 class Swordsman(Character):
-    ATK_RANGE = 3
-    BASIC_ATK_DMG = 15
-    SPECIAL_ATK_DMG = 30
-    MOVE_SPEED = 10
-    CHARGE_SPEED = 15
-    MAX_HEALTH = 100
-    FOV = 45
+	ATK_RANGE = 3
+	BASIC_ATK_DMG = 15
+	SPECIAL_ATK_DMG = 30
+	MOVE_SPEED = 10
+	CHARGE_SPEED = 15
+	MAX_HEALTH = 100
+	FOV = 45
 
-    def __init__(self, *args):
+	def __init__(self, *args):
 		super(Swordsman, self).__init__(*args)
 		Character.set_health(self, Swordsman.MAX_HEALTH)
 		Character.set_speed(self, Swordsman.MOVE_SPEED)
@@ -74,7 +74,7 @@ class Swordsman(Character):
 		self.model.setScale(2)
 		self.model.setPos(0, 0, -10)
 		
-    def basic_attack(self):
+	def basic_attack(self):
 		total_dmg = Swordsman.BASIC_ATK_DMG
 		swing_sound = loader.loadSfx("sound/Swoosh.mp3")
 
@@ -101,7 +101,7 @@ class Swordsman(Character):
 		
 		return total_dmg
 
-    def special_attack(self):
+	def special_attack(self):
 		total_dmg = Swordsman.SPECIAL_ATK_DMG
 		swing_sound = loader.loadSfx("sound/Swoosh.mp3")
 			
@@ -128,7 +128,7 @@ class Swordsman(Character):
 		
 		return total_dmg
 
-    def take_damage(self, health_change):
+	def take_damage(self, health_change):
 		health = Character.get_health(self)
 		if health < health_change and not self._is_dead:
 			Character.set_health(self, 0)
@@ -136,16 +136,19 @@ class Swordsman(Character):
 			hurt_interval = self._character.actorInterval("hurt")
 			death_interval = self._character.actorInterval("die")
 			seq = Sequence(hurt_interval, death_interval)
+			seq.append(Wait(2))
 			# add Func interval to place the character at a new location
+			seq.append(Func(self.respawn))
 			seq.start()
 			self._is_dead = True
+			#self._is_moving=2
 		else:
 			Character.set_health(self, health-health_change)
 			#self.hb.setValue(Character.get_health(self)-health_change)
 			self.hb.setValue(Character.get_health(self))
 			self._character.play("hurt")
 
-    def apply_def_buff(self):
+	def apply_def_buff(self):
 		if not self._is_dead:
 			health = Character.get_health(self)
 			if self._def_buff==1:
@@ -155,7 +158,7 @@ class Swordsman(Character):
 				Character.set_health(self, health*1.25)
 				Swordsman.MAX_HEALTH = Swordsman.MAX_HEALTH*1.25
 
-    def unapply_def_buff(self):
+	def unapply_def_buff(self):
 		if not self._is_dead:
 			if self._def_buff==0:
 				Swordsman.MAX_HEALTH = 100
@@ -166,7 +169,7 @@ class Swordsman(Character):
 			if health > Swordsman.MAX_HEALTH:
 					health = Swordsman.MAX_HEALTH
 
-    def animate(self, anim_type):
+	def animate(self, anim_type):
 		if anim_type==0:
 			self._character.loop("idle")
 		elif anim_type==1:
@@ -187,3 +190,7 @@ class Swordsman(Character):
 			self._character.play("hurt")
 		elif anim_type==6:
 			self._character.play("die")
+
+	def respawn(self):
+		self._is_moving=2
+		self._character.loop("idle")
