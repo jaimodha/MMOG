@@ -31,9 +31,12 @@ class ResponseLogin(ServerResponse):
                         #main.player._character.setPos(swordsmanStartPos)
                         #main.player._character.setPos(0,0,0)
                         if self.faction==0:
-                              main.player._character.setPos(254.271, 6.72015, 0)
+                              	main.player._character.setPos(254.271, 6.72015, 0)
+				main.player._floater.setPos(254.271, 6.72015, 0)
+			
                         elif self.faction==1:
-                              main.player._character.setPos(-268.27, 8.0602, 0)
+				main.player._character.setPos(-268.27, 8.0602, 0)
+                             	main.player._floater.setPos(-268.27, 8.0602, 0)
                         #swordsmanStartPos.setY(swordsmanStartPos.getY())
                         #main.player._character.setPos(swordsmanStartPos.getX(),swordsmanStartPos.getY(),swordsmanStartPos.getZ())
                         #main.initx = swordsmanStartPos.getX()

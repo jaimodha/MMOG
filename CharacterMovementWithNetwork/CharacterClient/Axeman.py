@@ -56,7 +56,9 @@ class Axeman(Character):
         axe.show()
 
         self.hb = HealthBar(1.5, value=Axeman.MAX_HEALTH)
-        self.hb.reparentTo(self._character)
+       	self.hb.reparentTo(self._floater)
+
+	self.hb.setValue(self.get_health())
 		
         model = loader.loadModel("models/circle")
         model.setTransparency(True)

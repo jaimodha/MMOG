@@ -7,25 +7,30 @@ from direct.interval.IntervalGlobal import Sequence
 from direct.interval.IntervalGlobal import Parallel
 from direct.interval.FunctionInterval import Func
 from panda3d.core import Point3
+from panda3d.core import PandaNode,NodePath,TextNode
+
 
 class Character(object):
 
 	def __init__(self, name, team):
 		#self._player = player
-		
+	
 		self._health = 0
 		self._speed = 0
-		
+	
 		self._is_playing = False
 		self._is_moving = False	
 		self._is_attacking = False
 		self._is_dead = False
 		#self._total_kills = 0
-		
+	
 		self._name = name
 		self._team = team
 		#_character is an actor with pos and heading
 		self._character = None
+		self._floater = NodePath(PandaNode("char_info"))
+		self._floater.reparentTo(render)
+		
 
 		self._atk_buff = 0
 		self._def_buff = 0
@@ -71,6 +76,8 @@ class Character(object):
 		if self.checkBoundary(x, y):
 			self._character.setX( x )
 			self._character.setY( y )
+			self._floater.setX(x)
+			self._floater.setY(y)
 
 	#use to update movement from heartbeats.
 	#heartbeat is time between heartbeats.
@@ -82,11 +89,16 @@ class Character(object):
 		moveInterval = self._character.posInterval(heartbeat, Point3(x, y, z))
 		rotationInterval = self._character.hprInterval(heartbeat, Point3(rotation, 0, 0))
 		sequence = Sequence(Parallel(rotationInterval, moveInterval))
+
+		moveIntervalf = self._floater.posInterval(heartbeat, Point3(x, y, z))
+		rotationIntervalf = self._floater.hprInterval(heartbeat, Point3(rotation, 0, 0))
+		sequencef = Sequence(Parallel(rotationIntervalf, moveIntervalf))
 		if not isMoving:
 			self._is_moving = False
 			standInterval = Func(self.idle)
 			sequence.append(standInterval)
 		sequence.start()
+		sequencef.start()
 
 	def idle(self):
 		self._character.loop("idle")
@@ -104,13 +116,13 @@ class Character(object):
 		elif(self.checkRectangle( x, y, -270, -105, -10, 150)):
 			within = True
 		return within
-	
+
 	def checkRectangle(self, x, y, minx, maxx, miny, maxy):
 		if ( x > minx and x < maxx and y > miny and y < maxy ):
 			return True
 		else:
 			return False
-	
+
 	def is_dead(self):
 		return self._is_dead
 
@@ -125,7 +137,7 @@ class Character(object):
 
 	def get_player(self):
 		return self._player
-		
+	
 	def get_character(self):
 		return self._character
 
