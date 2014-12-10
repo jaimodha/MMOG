@@ -51,10 +51,16 @@ public class GameServer {
 		
 		// Initialize Control Points
         ControlPoint cp1 = new ControlPoint(1, 30, Constants.RED);
-        ControlPoint cp2 = new ControlPoint(2, 0, Constants.BLUE);
+        ControlPoint cp2 = new ControlPoint(2, 30, Constants.RED);
+        ControlPoint cp3 = new ControlPoint(3, 30, Constants.RED);
+        ControlPoint cp4 = new ControlPoint(4, 0, Constants.BLUE);
+        ControlPoint cp5 = new ControlPoint(5, 0, Constants.BLUE);
         
         cpList.put(cp1.getCpId(), cp1);
         cpList.put(cp2.getCpId(), cp2);
+        cpList.put(cp3.getCpId(), cp3);
+        cpList.put(cp4.getCpId(), cp4);
+        cpList.put(cp5.getCpId(), cp5);
 
         // Initialize database connection
        /* if (DAO.getInstance() == null) {

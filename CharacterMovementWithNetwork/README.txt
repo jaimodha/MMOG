@@ -1,6 +1,8 @@
 This test client and the test server are very much a patch job.
 
-Start the server by running the GameServer class.
+Start the server by running the GameServer class (ContestedServer\bin\core\GameServer).
+Next, start the Control Point handler by running ControlPointClient\ControlPointClient.py.
+Next, run CharacterClient\World.py.
 
 The fake login I made takes a username, the type of character based on 0 for swordsman and 1 for axeman and the faction also a 0 or 1.  Also important is that the server doesn't check for username uniqueness but the client needs it so don't name two test guys the same thing.
 

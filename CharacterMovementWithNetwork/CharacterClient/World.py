@@ -135,12 +135,12 @@ class World(DirectObject):
         
         
         
-        # Create two control points
-        cp1 = ControlPoint(1, -107.575, 0.6066, 0.490075, 10, RED)
-        cp2 = ControlPoint(2, -100.575, -35.6066, 0.090075, 10, BLUE)
-
-        self.cpList[1] = cp1
-        self.cpList[2] = cp2
+        # Create control points
+        self.cpList[1] = ControlPoint(1, -23.1, -137.9, 0, 10, RED)
+        self.cpList[2] = ControlPoint(2, 110.6, -255.6, 0, 10, RED)
+        self.cpList[3] = ControlPoint(3, 7.7, -14.8, 0, 10, RED)
+        self.cpList[4] = ControlPoint(4, -1.1, 134.3, 0, 10, BLUE)
+        self.cpList[5] = ControlPoint(5, 94.1, 197.3, 0, 10, BLUE)
             
         # Create the control point Bar UI
         self.cp_bar = ControlPointBar()
