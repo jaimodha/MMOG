@@ -64,8 +64,9 @@ class Swordsman(Character):
 			#actor.setTexture(ts, tex)
 		
 		Character.set_actor(self, actor)
-		self.hb = HealthBar(2.0, value=Swordsman.MAX_HEALTH)
-		self.hb.reparentTo(self._character)
+		self.hb = HealthBar(1.0, value=Swordsman.MAX_HEALTH)
+		self.hb.reparentTo(self._floater)
+		self.hb.setValue(self.get_health())
 		
 		self.model = loader.loadModel("models/circle")
 		self.model.setTransparency(True)
