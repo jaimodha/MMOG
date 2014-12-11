@@ -12,6 +12,7 @@ from net.response.ResponseLogin import ResponseLogin
 from net.response.ResponseRenderCharacter import ResponseRenderCharacter
 from net.response.ResponseRemoveCharacter import ResponseRemoveCharacter
 from net.response.ResponseCP import ResponseCP
+from net.response.ResponseNpcDeath import ResponseNpcDeath
 
 class ServerResponseTable:
     """
@@ -34,6 +35,7 @@ class ServerResponseTable:
         self.add(Constants.SMSG_RENDER_CHARACTER, 'ResponseRenderCharacter')
         self.add(Constants.SMSG_REMOVE_CHARACTER, 'ResponseRemoveCharacter')
         self.add(Constants.SMSG_CONTROL_POINT_STATE, 'ResponseCP')
+        self.add(Constants.SMSG_NPCDEATH, 'ResponseNpcDeath')
 
     def add(self, constant, name):
         """Map a numeric response code with the name of an existing response module."""

@@ -3,6 +3,7 @@ package metadata;
 // Java Imports
 import java.util.HashMap;
 
+
 // Custom Imports
 import networking.request.GameRequest;
 
@@ -36,6 +37,9 @@ public class GameRequestTable {
         add(Constants.CMSG_HEALTH, "RequestCharacterChangeHealth");
         add(Constants.REQ_HEARTBEAT, "RequestHeartbeat");
 		add(Constants.CMSG_CONTROL_POINT_STATE, "RequestCP");
+		add(Constants.CMSG_NPCMOVE,"RequestNpcMove");
+        add(Constants.CMSG_NPCATTACK,"RequestNpcAttack");
+        add(Constants.CMSG_NPCDEATH,"RequestNpcDeath");
     }
 
     /**

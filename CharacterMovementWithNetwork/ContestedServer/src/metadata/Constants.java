@@ -25,6 +25,15 @@ public class Constants {
     public final static short SMSG_REMOVE_CHARACTER = 311;
     public final static short SMSG_CREATE_ENV = 329;
 
+    public final static short CMSG_NPCMOVE = 120;
+    public final static short SMSG_NPCMOVE = 220;
+    
+    public final static short CMSG_NPCATTACK = 121;
+    public final static short SMSG_NPCATTACK = 221;
+    
+    public final static short CMSG_NPCDEATH = 122;
+    public final static short SMSG_NPCDEATH = 222;
+
     //Test Request + Response
     public final static short RAND_INT = 1;
     public final static short RAND_STRING = 2;

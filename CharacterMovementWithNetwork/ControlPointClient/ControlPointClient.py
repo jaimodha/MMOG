@@ -67,6 +67,9 @@ class World(DirectObject):
                     if cp.timer == 0:
                         print("CP [", cp.id, "] taken by Blue")
                         cp.factionId = BLUE
+                        #main.controlNpc.switchControl(cp.id)
+                        self.cManager.sendRequest(Constants.CMSG_NPCDEATH, [cp.id])
+                        
                 else:
                     cp.timer = 30
                     
@@ -80,6 +83,7 @@ class World(DirectObject):
                     if cp.timer == 30:
                         print("CP [", cp.id, "] taken by Red")
                         cp.factionId = RED
+                        #main.controlNpc.switchControl(cp.id)
                 else:
                     cp.timer = 0
             

@@ -11,6 +11,9 @@ from net.request.RequestLogin import RequestLogin
 from net.request.RequestChat import RequestChat
 from net.request.RequestHeartbeat import RequestHeartbeat
 from net.request.RequestCP import RequestCP
+from net.request.RequestNpcMove import RequestNpcMove
+from net.request.RequestNpcAttack import RequestNpcAttack
+from net.request.RequestNpcDeath import RequestNpcDeath
 
 class ServerRequestTable:
     """
@@ -32,6 +35,9 @@ class ServerRequestTable:
         self.add(Constants.CMSG_CHAT, 'RequestChat')
         self.add(Constants.REQ_HEARTBEAT, 'RequestHeartbeat')
         self.add(Constants.CMSG_CONTROL_POINT_STATE, 'RequestCP')
+        self.add(Constants.CMSG_NPCMOVE, 'RequestNpcMove')
+        self.add(Constants.CMSG_NPCATTACK, 'RequestNpcAttack')
+        self.add(Constants.CMSG_NPCDEATH, 'RequestNpcDeath')
 
     def add(self, constant, name):
         """Map a numeric request code with the name of an existing request module."""

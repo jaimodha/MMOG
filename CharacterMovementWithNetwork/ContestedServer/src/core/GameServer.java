@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
+
 // Custom Imports
 import configuration.GameServerConf;
 import metadata.Constants;
@@ -22,6 +23,7 @@ import metadata.GameRequestTable;
 import networking.response.GameResponse;
 import utility.ConfFileParser;
 import model.ControlPoint;
+import model.Npc;
 
 
 /**
@@ -38,7 +40,8 @@ public class GameServer {
     private HashMap<Long, GameClient> activeThreads = new HashMap<Long, GameClient>(); // Stores active threads by thread ID
 	private HashMap<Integer, ControlPoint> cpList = new HashMap<Integer, ControlPoint>();
     //private HashMap<Integer, Player> activePlayers = new HashMap<Integer, Player>(); // Stores active players by player ID
-
+	private ArrayList<Npc> npcList = new ArrayList<Npc>(); //creating a list of new npc's
+	
     /**
      * Initialize the GameServer by setting up the request types and creating a
      * connection with the database.
@@ -61,6 +64,11 @@ public class GameServer {
         cpList.put(cp3.getCpId(), cp3);
         cpList.put(cp4.getCpId(), cp4);
         cpList.put(cp5.getCpId(), cp5);
+        
+        for(int i = 1;i<=25;i++)
+        {
+        	npcList.add(new Npc(i, "none","none"));
+        }
 
         // Initialize database connection
        /* if (DAO.getInstance() == null) {
@@ -162,6 +170,14 @@ public class GameServer {
 
         return null;
     }*/
+    
+    public ArrayList<Npc> getNpcList() {
+		return npcList;
+	}
+
+	public void setNpcList(ArrayList<Npc> npcList) {
+		this.npcList = npcList;
+	}
 
     public int getNumberOfCurrentThreads() {
         return activeThreads.size();

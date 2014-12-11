@@ -30,6 +30,7 @@ import operator
 from ControlPoint import *
 from statusbar import *
 
+from NPCController import NPCController
 from common.Constants import Constants
 from net.ConnectionManager import ConnectionManager
 import __builtin__
@@ -165,10 +166,28 @@ class World(DirectObject):
         taskMgr.doMethodLater(0.1, self.CPBarHandler, 'CPBarHandler')
         
         
+        '''NPC Code Additions'''
+        #self.isChased =[False,False]
+        #self.npcList = [0,0]
+        self.isChased = False
+        self.npcList = 0
+        self.controlNpc = NPCController(render)
+        taskMgr.add(self.taskAIUpdate,"AIUpdate")
+        taskMgr.add(self.moveNpc,"Move")
         
-        
-        
-        
+    def taskAIUpdate(self,task):
+        self.npcList = self.controlNpc.AIUpdate(self,globalClock.getDt(),self.cManager)
+        return task.cont
+    
+    def moveNpc(self,task):
+        self.cManager.sendRequest(Constants.CMSG_NPCMOVE,[self.username,self.npcList])
+        return task.cont
+    
+    def freeDeadNpc(self, cpId):
+        if cpId == self.npcList:
+            self.npcList = 0
+            self.isChased = False
+              
     def startConnection(self):
         if self.cManager.connection == None:
             if not self.cManager.startConnection():
@@ -369,6 +388,38 @@ class World(DirectObject):
 
         targets = []
         candidates={}
+        
+        '''selecting an npc target'''
+        if not self.npcList==0:
+            currentNpc = self.controlNpc.getNpc(self.npcList)
+            tx = currentNpc.getX()
+            ty = currentNpc.getY()
+            vx = tx-px
+            vy = ty-py
+
+            vl = math.sqrt( math.pow(vx, 2) + math.pow(vy, 2) )
+
+            if vl==0:
+                return None
+
+            #normalize
+            nvx = vx/vl
+            nvy = vy/vl
+
+            #dot product
+            dp = self.dot(ncx, ncy, nvx, nvy)
+
+            angle = math.degrees(math.acos(dp))
+
+            d = self.distance(tx, ty, px, py)
+
+            if angle<(fov/2) and d<self.player.ATK_RANGE:
+                #check if the npc is dead
+                npcId = str(self.npcList)
+                candidates["NPC,"+npcId]=d
+        '''end of selecting an npc target part'''
+        
+        
         for name, other in self.characters.iteritems():
             tx = other._character.getX()
             ty = other._character.getY()

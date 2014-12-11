@@ -17,6 +17,7 @@ class Constants:
     CMSG_ATTACK                         = 107
     CMSG_HEALTH                         = 108
     CMSG_CONTROL_POINT_STATE            = 111
+    CMSG_NPCDEATH                       = 122
     
     SMSG_AUTH                           = 201
     SMSG_CHAT                           = 205
@@ -24,6 +25,7 @@ class Constants:
     SMSG_ATTACK                         = 207
     SMSG_HEALTH                         = 208
     SMSG_CONTROL_POINT_STATE            = 211
+    SMSG_NPCDEATH                       = 222
     
     REQ_HEARTBEAT                       = 301
     SMSG_RENDER_CHARACTER               = 310
