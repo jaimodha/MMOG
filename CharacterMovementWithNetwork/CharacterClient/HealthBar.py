@@ -43,11 +43,8 @@ class HealthBar(NodePath):
         def setValue(self, value):
                 self.value = min((self.buff*.01 + float(value)/self.range * 0.01), 1)
                 self.fg.setScale(self.value, 0, 1)
-<<<<<<< HEAD
                 self.fg.setX((self.value - 1) * self.scale)
-=======
                 self.fg.setX((self.value - 1) * self.scale * self.scale)
->>>>>>> Integrated NPC Code
                 
           
 
@@ -68,9 +65,5 @@ class HealthBar(NodePath):
         def setPos(self, x, y, z):
             self.x = x
             self.y = y
-<<<<<<< HEAD
             self.z = z
-          
-=======
             self.z = z
->>>>>>> Integrated NPC Code
