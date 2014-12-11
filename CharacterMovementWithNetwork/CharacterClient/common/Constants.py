@@ -6,7 +6,7 @@ class Constants:
     RAND_SHORT                          = 3
     RAND_FLOAT                          = 4
 
-    SERVER_IP = 'localhost'
+    SERVER_IP = 'csproject.calstatela.edu'
     SERVER_PORT = 9252
     DEBUG = True
 
