@@ -55,7 +55,7 @@ class ResponseLogin(ServerResponse):
 
                         main.characters[self.username]._character.reparentTo(render)
                         main.characters[self.username]._character.setScale(.4)
-                        main.characters[self.username]._character.setPos(0,0,0)
+                        main.characters[self.username]._character.setPos(500,500,0)
                         #main.characters[self.username]._character.setPos(swordsmanStartPos)
                         #swordsmanStartPos.setY(swordsmanStartPos.getY())
                         #main.characters[self.username]._character.setPos(swordsmanStartPos.getX(),swordsmanStartPos.getY(),swordsmanStartPos.getZ())
