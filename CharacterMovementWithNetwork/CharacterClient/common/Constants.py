@@ -23,15 +23,14 @@ class Constants:
     CMSG_ATTACK                         = 107
     CMSG_HEALTH                         = 108
     CMSG_CONTROL_POINT_STATE            = 111
-<<<<<<< Updated upstream
+
     CMSG_NPCMOVE                        = 120
     CMSG_NPCATTACK                      = 121
     CMSG_NPCDEATH                       = 122
-=======
+
     CMSG_CONTROL_POINT_CAP              = 112
     CMSG_DELETE_CHARACTER               = 113
     CMSG_SELECT_CHARACTER               = 114
->>>>>>> Stashed changes
     
     SMSG_AUTH                           = 201
     SMSG_DISCONNECT                     = 202
@@ -43,13 +42,12 @@ class Constants:
     SMSG_HEALTH                         = 208
     SMSG_RESOURCE                       = 209
     SMSG_CONTROL_POINT_STATE            = 211
-<<<<<<< Updated upstream
+
     SMSG_NPCMOVE                        = 220
     SMSG_NPCATTACK                      = 221
     SMSG_NPCDEATH                       = 222
-=======
+
     SMSG_CONTROL_POINT_CAP              = 212
->>>>>>> Stashed changes
     
     REQ_HEARTBEAT                       = 301
     SMSG_RENDER_CHARACTER               = 310
