@@ -104,7 +104,7 @@ class miniMap(object):
     def delNpc(self, npcName):
         del self.npc[npcName]
     
-    def setTower(self, towerName, towerScale, getX, getY):
+    def setTower(self, towerName, towerImage, towerScale, getX, getY):
 	if getX <= 0 and getY <= 0:
             ay = (MAP_AY + (getY))/MAP_AY
             y = MAP_SCALEY-(ay*MAP_SCALEY)
@@ -126,7 +126,7 @@ class miniMap(object):
             ax = (MAP_BX - (getX))/MAP_BX
             x = -MAP_SCALEX+(ax*MAP_SCALEX)
 
-        self.tower_ = OnscreenImage(image=self.towerImage, pos=(x, 0, y), 
+        self.tower_ = OnscreenImage(image=towerImage, pos=(x, 0, y), 
                                  scale=(towerScale*MAP_SCALEY, 1, towerScale*MAP_SCALEX))
         self.tower_.reparentTo(self.map)
         self.tower_.setTransparency(1)
