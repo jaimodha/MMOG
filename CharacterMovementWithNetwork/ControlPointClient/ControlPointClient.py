@@ -8,6 +8,8 @@ import random, sys, os, math
 
 from BasicControlPoint import *
 
+from miniMap import *
+
 from common.Constants import Constants
 from net.ConnectionManager import ConnectionManager
 import __builtin__
