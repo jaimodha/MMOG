@@ -63,9 +63,9 @@ class World(DirectObject):
         """  
 
         self.left_atk_tower = loader.loadModel("models/attack_tower")
-        self.left_def_tower = loader.loadModel("models/defence_tower")
+        self.left_def_tower = loader.loadModel("models/defense_tower")
         self.right_atk_tower = loader.loadModel("models/attack_tower")
-        self.right_def_tower = loader.loadModel("models/defence_tower")
+        self.right_def_tower = loader.loadModel("models/defense_tower")
         self.money_cp = loader.loadModel("models/money_point")
         
         self.left_atk_tower.setPos(141.016, 0.440607, 0)
