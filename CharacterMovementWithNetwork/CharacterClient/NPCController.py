@@ -25,6 +25,7 @@ from panda3d.core import QueuedConnectionManager
 from panda3d.core import QueuedConnectionReader
 from direct.interval.LerpInterval import LerpPosInterval
 from direct.interval.LerpInterval import *
+from common.Constants import Constants
 
 from panda3d.ai import *
 from libpanda import Point3
@@ -39,45 +40,25 @@ class NPCController():
     def __init__(self,render):
         self.threshold = 15
         self.render = render
-
-        '''self.cp1anchorx = 210
-        self.cp1anchory = 115
-        self.cp1anchorz = 0.0
         
-        self.cp2anchorx = 140
-        self.cp2anchory = 1
-        self.cp2anchorz = 0.0
-        
-        self.cp3anchorx = 0.0
-        self.cp3anchory = 0
-        self.cp3anchorz = 0.0
-        
-        self.cp4anchorx = -150
-        self.cp4anchory = 1
-        self.cp4anchorz = 0.0
-        
-        self.cp5anchorx = -210
-        self.cp5anchory = 115
-        self.cp5anchorz = 0.0'''
-        
-        self.cp1anchorx = 208.306
-        self.cp1anchory = 75.0934
+        self.cp1anchorx = Constants.CP1X
+        self.cp1anchory = Constants.CP1Y
         self.cp1anchorz = -1
         
-        self.cp2anchorx = 141.016
-        self.cp2anchory = 0.440607
+        self.cp2anchorx = Constants.CP2X
+        self.cp2anchory = Constants.CP2Y
         self.cp2anchorz = -1
         
-        self.cp3anchorx = -0.766843
-        self.cp3anchory = 9.40588
+        self.cp3anchorx = Constants.CP3X
+        self.cp3anchory = Constants.CP3Y
         self.cp3anchorz = -1
         
-        self.cp4anchorx = -210.771
-        self.cp4anchory = 113.753
+        self.cp4anchorx = Constants.CP4X
+        self.cp4anchory = Constants.CP4Y
         self.cp4anchorz = -1
         
-        self.cp5anchorx = -149.953
-        self.cp5anchory = 0.674369
+        self.cp5anchorx = Constants.CP5X
+        self.cp5anchory = Constants.CP5Y
         self.cp5anchorz = -1
         
         cp1team = 0

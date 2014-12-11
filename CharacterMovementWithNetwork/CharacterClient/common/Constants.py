@@ -76,6 +76,21 @@ class Constants:
     SMSG_DESTROY_GOLEMCP                = 322
     SMSG_SPAWN_GOLEM_NPC                = 323
     SMSG_GOLEM_PIECE                    = 324
+	
+    CP1X                                = 208.306
+    CP1Y                                = 75.0934
+    
+    CP2X                                = 141.016
+    CP2Y                                = 0.440607
+    
+    CP3X                                = -0.766843
+    CP3Y                                = 9.40588
+    
+    CP4X                                = -210.771
+    CP4Y                                = 113.753
+    
+    CP5X                                = -149.953
+    CP5Y                                = 0.674369
 
     IMG_SWORD                           = "images/sword.png"
     IMG_AXE                             = "images/Axe.png"
