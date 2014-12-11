@@ -191,7 +191,7 @@ class World(DirectObject):
             
         # Create the control point Bar UI
         self.cp_bar = ControlPointBar()
-        self.resource_bar = ResourceBar()
+        # self.resource_bar = ResourceBar()
 
         taskMgr.doMethodLater(0.1, self.refresh, "heartbeat")
         taskMgr.doMethodLater(1, self.CPHandler, "CPHandler")
