@@ -11,8 +11,7 @@ from panda3d.core import CollisionHandlerQueue,CollisionRay
 from panda3d.core import Filename,AmbientLight,DirectionalLight
 from direct.interval.LerpInterval import LerpPosInterval
 from direct.interval.LerpInterval import *
-#from libpanda import Point3
-from panda3d.core import Point3
+from libpanda import Point3
 from direct.interval.ActorInterval import ActorInterval
 import math
 from direct.distributed.PyDatagram import PyDatagram
@@ -63,7 +62,7 @@ class Npc():
         self.npc.reparentTo(self.render)
         self.npc.setPos(anchorx,anchory,anchorz)
         
-        self.AIchar = AICharacter("npc",self.npc, 100, 0.05, 5)
+        self.AIchar = AICharacter("npc"+str(self.id),self.npc, 100, 0.05, 5)
         self.AIbehaviors = self.AIchar.getAiBehaviors()
         
         self.hb = HealthBar(1.5, value=self.health)
@@ -73,13 +72,16 @@ class Npc():
         self.hb.reparentTo(self.npc)
         #self.hb.reparentTo(self.npc)
         
-    def renderBlue(self):
+    def renderBlue(self,AIworld):
         if not self._is_dead:
             self.AIbehaviors.removeAi("pursue")
             self.npc.detachNode()
+        
+        print "Started delete procedure for npc ",
+        print self.id    
+        self.npc.delete()
         self.npc = Actor("models/priest",
                                 {"walk": "models/priest-walk", "attack":"models/priest-attack", "hurt":"models/priest-hit", "die":"models/priest-die"})
-        
         self.npcTex = loader.loadTexture("models/tex/guard_blue.png")
         self.npc.setTexture(self.npcTex)
         self.npc.setScale(0.5, 0.5, 0.5)
@@ -90,21 +92,24 @@ class Npc():
         self.npc.reparentTo(self.render)
         self.npc.setPos(self.anchorx,self.anchory,self.anchorz)
         
-        self.AIchar = AICharacter("npc",self.npc, 100, 0.05, 5)
+        AIworld.removeAiChar("npc"+str(self.id))
+        self.AIchar = AICharacter("npc"+str(self.id),self.npc, 100, 0.05, 5)
         self.AIbehaviors = self.AIchar.getAiBehaviors()
+        AIworld.addAiChar(self.AIchar)
         
         self.hb = HealthBar(1.5, value=self.health)
-        self.hb.setPos(0, 0, 8.1)
+        self.hb.setPos(0, 0, 18.1)
         self.hb.reparentTo(self.npc)
         #self.hb.reparentTo(self.npc)
         
-    def renderRed(self):
+    def renderRed(self,AIworld):
         if not self._is_dead:
             self.AIbehaviors.removeAi("pursue")
             self.npc.detachNode()
+            
+        self.npc.delete()
         self.npc = Actor("models/priest",
                                 {"walk": "models/priest-walk", "attack":"models/priest-attack", "hurt":"models/priest-hit", "die":"models/priest-die"})
-        
         self.npcTex = loader.loadTexture("models/tex/guard_red.png")
         self.npc.setTexture(self.npcTex)
         self.npc.setScale(0.5, 0.5, 0.5)
@@ -115,20 +120,30 @@ class Npc():
         self.npc.reparentTo(self.render)
         self.npc.setPos(self.anchorx,self.anchory,self.anchorz)
         
-        self.AIchar = AICharacter("npc",self.npc, 100, 0.05, 5)
+        AIworld.removeAiChar("npc"+str(self.id))
+        self.AIchar = AICharacter("npc"+str(self.id),self.npc, 100, 0.05, 5)
         self.AIbehaviors = self.AIchar.getAiBehaviors()
+        AIworld.addAiChar(self.AIchar)
+        AIworld.update()
         
         self.hb = HealthBar(1.5, value=self.health)
         self.hb.setPos(0, 0, 8.1)
         self.hb.reparentTo(self.npc)
         
-    def switchTeam(self):
+    def switchTeam(self,AIworld):
+        print self.id,
+        print " from team ",
+        print self._team,
+        print " getting deleted."
         if self._team==0:
             self._team=1
-            self.renderBlue()
+            self.renderBlue(AIworld)
         else:
             self._team=0
-            self.renderRed()
+            self.renderRed(AIworld)
+            
+        if self.isCurrentUser:
+            main.freeDeadNpc(self.id)
             
         self.target = None
         self.isMoving = False
@@ -174,7 +189,6 @@ class Npc():
     def chaseTarget(self, target, status = False):
         if(not self.isMoving):
             self.target = target
-            self.AIbehaviors.remove_ai("all")
             self.AIbehaviors.pursue(self.target)
             self.npc.loop("walk")
             self.isMoving = True
@@ -236,3 +250,6 @@ class Npc():
                         self.npc.stop("attack")
                     if not self.npc.getAnimControl("walk").isPlaying():
                         self.npc.loop("walk") 
+                        
+                        
+                        

@@ -27,8 +27,7 @@ from direct.interval.LerpInterval import LerpPosInterval
 from direct.interval.LerpInterval import *
 
 from panda3d.ai import *
-#from libpanda import Point3
-from panda3d.core import Point3
+from libpanda import Point3
 #from ControlPoint import ControlPoint
 from Npc import Npc
 #from RoamingRalphClient import *
@@ -201,11 +200,14 @@ class NPCController():
             for npc in cp:
                 if npc.id == id:
                     return npc'''
+   
+   
     def switchControl(self,cpId):
         for cp in self.controlPointList:
             if(cp[0].controlPointId==cpId):
+                print cpId
                 for npc in cp:
-                    npc.switchTeam()
+                    npc.switchTeam(self.AIworld)
         
         
     def allBusy(self, cpList): 
