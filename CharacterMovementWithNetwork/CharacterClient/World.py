@@ -248,6 +248,7 @@ class World(DirectObject):
                 self.cManager.sendRequest(Constants.CMSG_MOVE, [-268.27, 8.0602, 0, self.player._character.getH(), 2])
                 self.player._character.setPos(-268.27, 8.0602, 0)
                 """
+                dead_pos = self.player._character.getPos()
 
                 cp_distances = {}
                 for cp in self.cpList.values():
