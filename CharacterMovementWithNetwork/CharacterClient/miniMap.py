@@ -26,6 +26,8 @@ class miniMap(object):
         self.heroImage = 'models/mainHero2.png'
         self.miniMapImage = 'models/miniMap000.png'
         self.towerImage = 'models/tower_neitral.png'
+        self.towerRed = 'models/tower_red.png'
+        self.towerBlue = 'models/tower_blue.png'
         
         self.map = OnscreenImage(image = self.miniMapImage, pos=(-0.7, 0, 0.8), 
                               scale=(MAP_SCALEX, 0, MAP_SCALEY))
