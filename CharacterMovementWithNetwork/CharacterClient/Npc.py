@@ -11,7 +11,8 @@ from panda3d.core import CollisionHandlerQueue,CollisionRay
 from panda3d.core import Filename,AmbientLight,DirectionalLight
 from direct.interval.LerpInterval import LerpPosInterval
 from direct.interval.LerpInterval import *
-from libpanda import Point3
+#from libpanda import Point3
+from panda3d.core import Point3
 from direct.interval.ActorInterval import ActorInterval
 import math
 from direct.distributed.PyDatagram import PyDatagram

@@ -27,7 +27,8 @@ from direct.interval.LerpInterval import LerpPosInterval
 from direct.interval.LerpInterval import *
 
 from panda3d.ai import *
-from libpanda import Point3
+#from libpanda import Point3
+from panda3d.core import Point3
 #from ControlPoint import ControlPoint
 from Npc import Npc
 #from RoamingRalphClient import *

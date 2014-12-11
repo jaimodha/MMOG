@@ -31,6 +31,13 @@ class Constants:
     CMSG_CONTROL_POINT_CAP              = 112
     CMSG_DELETE_CHARACTER               = 113
     CMSG_SELECT_CHARACTER               = 114
+    CMSG_SELECT_CHARACTER               = 114
+    CMSG_NPCMOVE                        = 120
+    CMSG_NPCATTACK                      = 121
+    CMSG_NPCDEATH                       = 122
+    CMSG_CONTROL_POINT_CAP              = 112
+    CMSG_DELETE_CHARACTER               = 113
+    CMSG_SELECT_CHARACTER               = 114
     
     SMSG_AUTH                           = 201
     SMSG_DISCONNECT                     = 202
@@ -47,6 +54,17 @@ class Constants:
     SMSG_NPCATTACK                      = 221
     SMSG_NPCDEATH                       = 222
 
+    SMSG_CONTROL_POINT_CAP              = 212
+
+    SMSG_NPCMOVE                        = 220
+    SMSG_NPCATTACK                      = 221
+    SMSG_NPCDEATH                       = 222
+
+    SMSG_CONTROL_POINT_CAP              = 212
+    SMSG_NPCMOVE                        = 220
+    SMSG_NPCATTACK                      = 221
+    SMSG_NPCDEATH                       = 222
+#=======
     SMSG_CONTROL_POINT_CAP              = 212
     
     REQ_HEARTBEAT                       = 301
