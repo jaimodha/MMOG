@@ -22,7 +22,7 @@ class miniMap(object):
     
     def __init__(self, mainActor):
         
-        self.teamMateImage = 'models/hexahedron_blue.png'
+        self.teamMateImage = 'models/hexahedron.png'
         self.heroImage = 'models/mainHero2.png'
         self.miniMapImage = 'models/miniMap000.png'
         self.towerImage = 'models/tower_neitral.png'
