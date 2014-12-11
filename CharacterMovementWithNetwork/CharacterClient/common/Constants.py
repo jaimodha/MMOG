@@ -77,8 +77,8 @@ class Constants:
     SMSG_SPAWN_GOLEM_NPC                = 323
     SMSG_GOLEM_PIECE                    = 324
 	
-    CP1X                                = 208.306
-    CP1Y                                = 75.0934
+    CP1X                                = 210.984
+    CP1Y                                = 115.005
     
     CP2X                                = 141.016
     CP2Y                                = 0.440607
