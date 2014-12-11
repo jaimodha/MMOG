@@ -153,11 +153,11 @@ class World(DirectObject):
         
         
         # Create control points
-        self.cpList[1] = ControlPoint(1, 208.306, 75.0934, 0, 10, RED)
-        self.cpList[2] = ControlPoint(2, 141.016, 0.440607, 0, 10, RED)
-        self.cpList[3] = ControlPoint(3, -0.766843, 9.40588, 0, 10, RED)
-        self.cpList[4] = ControlPoint(4, -210.771, 113.753, 0, 10, BLUE)
-        self.cpList[5] = ControlPoint(5, -149.953, 0.674369, 0, 10, BLUE)
+        self.cpList[1] = ControlPoint(1, 210.984, 115.005, -5, 10, RED)
+        self.cpList[2] = ControlPoint(2, 141.016, 0.440607, -5, 10, RED)
+        self.cpList[3] = ControlPoint(3, -0.903916, 11.3765, -2, 10, RED)
+        self.cpList[4] = ControlPoint(4, -210.771, 113.753, -2, 10, BLUE)
+        self.cpList[5] = ControlPoint(5, -149.953, 0.674369, -2, 10, BLUE)
             
         # Create the control point Bar UI
         self.cp_bar = ControlPointBar()
@@ -208,7 +208,7 @@ class World(DirectObject):
         main.miniMap.updateHeroPos(self.player._character.getX(), self.player._character.getY())
         main.miniMap.updateHeroHpr(self.player._character.getH())
         main.miniMap.resizeScreen(base.win.getXSize(), base.win.getYSize())
-
+        
         base.camera.lookAt(self.player._character)
         if (self.keyMap["cam-left"]!=0):
             base.camera.setX(base.camera, -20 * globalClock.getDt())
