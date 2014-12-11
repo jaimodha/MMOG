@@ -47,11 +47,9 @@ class miniMap(object):
     
     def resizeScreen(self, x, y):
         if x != 800 and y != 600:
-            self.map.setPos(-1.4, 0, 0.8)
+		self.map.setPos(-1.4, 0, 0.8)
         else:
-            self.map.setPos(-0.7, 0, 0.8)   
-            
-        return self.map
+		self.map.setPos(-0.7, 0, 0.8)
                 
     def setMap(self, mapScale, x, y):
         self.map = OnscreenImage(image = self.miniMapImage, pos=(x, 0, y), 
@@ -104,7 +102,28 @@ class miniMap(object):
     def delNpc(self, npcName):
         del self.npc[npcName]
     
-    def setTower(self, towerName, towerScale, x, y):
+    def setTower(self, towerName, towerScale, getX, getY):
+	if getX <= 0 and getY <= 0:
+            ay = (MAP_AY + (getY))/MAP_AY
+            y = MAP_SCALEY-(ay*MAP_SCALEY)
+            ax = (MAP_AX + (getX))/MAP_AX
+            x = MAP_SCALEX-(ax*MAP_SCALEX)
+        elif getX > 0 and getY < 0:
+            ay = (MAP_AY + (getY))/MAP_AY
+            y = MAP_SCALEY-(ay*MAP_SCALEY)
+            ax = (MAP_BX - (getX))/MAP_BX
+            x = -MAP_SCALEX+(ax*MAP_SCALEX)   
+        elif getX < 0 and getY > 0:
+            ay = (MAP_BY - (getY))/MAP_BY
+            y = -MAP_SCALEY+(ay*MAP_SCALEY)
+            ax = (MAP_AX + (getX))/MAP_AX
+            x = MAP_SCALEX-(ax*MAP_SCALEX)
+        else:
+            ay = (MAP_BY - (getY))/MAP_BY
+            y = -MAP_SCALEY+(ay*MAP_SCALEY)
+            ax = (MAP_BX - (getX))/MAP_BX
+            x = -MAP_SCALEX+(ax*MAP_SCALEX)
+
         self.tower_ = OnscreenImage(image=self.towerImage, pos=(x, 0, y), 
                                  scale=(towerScale*MAP_SCALEY, 1, towerScale*MAP_SCALEX))
         self.tower_.reparentTo(self.map)
@@ -180,5 +199,5 @@ class miniMap(object):
         
     def delTeamMate(self, mateName):
         del self.team[mateName]
-
+        
             
