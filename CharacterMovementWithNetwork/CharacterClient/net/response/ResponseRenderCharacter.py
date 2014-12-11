@@ -33,8 +33,8 @@ class ResponseRenderCharacter(ServerResponse):
                         main.base.camera.setPos(main.player._character.getX(),main.player._character.getY()+10,2)
                         
                         main.taskMgr.add(self.main.move,"moveTask")
-
-                        main.miniMap = miniMap(main.player._character)
+                        
+                        #main.miniMap = miniMap(main.player._character)
 
                         
             else:
