@@ -43,7 +43,11 @@ class ResponseLogin(ServerResponse):
                         main.base.camera.setPos(main.player._character.getX(),main.player._character.getY()+10,2)
 
                         main.miniMap = miniMap(main.player._character)
-                        main.tower1 = main.miniMap.setTower("tower1", 0.15, 0.5, -0.5)
+                        main.tower1 = main.miniMap.setTower("tower1", 0.08, 210.984, 115.005)
+                        main.tower2 = main.miniMap.setTower("tower2", 0.08, 141.016, 0.440607)
+                        main.tower3 = main.miniMap.setTower("tower3", 0.08, -0.903916, 11.3765)
+                        main.tower4 = main.miniMap.setTower("tower4", 0.08, -210.771, 113.753)
+                        main.tower5 = main.miniMap.setTower("tower5", 0.08, -149.953, 0.674369)
                         
             else:
                         #swordsmanStartPos = main.environ.find("**/start_point").getPos()
@@ -52,7 +56,10 @@ class ResponseLogin(ServerResponse):
                                     main.characters[self.username] = Swordsman(self.username, self.faction)
                         if self.charType%2 == 1:
                                     main.characters[self.username] = Axeman(self.username, self.faction)
-
+                                    
+			if main.player._team == self.faction:
+                                    main.miniMap.setTeamMate(self.username, 0.035, main.characters[self.username]._character.getX(), main.characters[self.username]._character.getY())
+                                    
                         main.characters[self.username]._character.reparentTo(render)
                         main.characters[self.username]._character.setScale(.4)
                         main.characters[self.username]._character.setPos(500,500,0)
@@ -60,9 +67,6 @@ class ResponseLogin(ServerResponse):
                         #swordsmanStartPos.setY(swordsmanStartPos.getY())
                         #main.characters[self.username]._character.setPos(swordsmanStartPos.getX(),swordsmanStartPos.getY(),swordsmanStartPos.getZ())
                         #main.initx = swordsmanStartPos.getX()
-
-                        main.miniMap = miniMap(main.player._character)
-                        main.tower1 = main.miniMap.setTower("tower1", 0.05, 0.5, -0.5)
 
             main.taskMgr.add(self.main.move,"moveTask")
             

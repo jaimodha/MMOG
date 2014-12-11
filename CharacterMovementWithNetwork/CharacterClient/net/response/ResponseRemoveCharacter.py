@@ -15,6 +15,7 @@ class ResponseRemoveCharacter(ServerResponse):
             self.username = data.getString()
             
             main.characters[self.username]._character.cleanup()
+            main.miniMap.delTeamMate(self.username)
 
         except:
             self.log('Bad [' + str(Constants.SMSG_REMOVE_CHARACTER) + '] Remove Character')
