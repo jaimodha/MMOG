@@ -53,32 +53,57 @@ class World(DirectObject):
         base.win.setClearColor(Vec4(0,0,0,1))
         
         #self.environ = loader.loadModel("models/world")
-        self.environ = loader.loadModel("models/land") 
-        #self.swordLeft = loader.loadModel("models/Sword_Left")
+        self.environ = loader.loadModel("models/land")
+        """
+        self.swordLeft = loader.loadModel("models/Sword_Left")
         self.swordRight = loader.loadModel("models/Sword_Right")  
         self.shieldLeft = loader.loadModel("models/Shield_Left")  
         self.shieldRight = loader.loadModel("models/Shield_Right")  
-        self.money = loader.loadModel("models/Money")      
+        self.money = loader.loadModel("models/Money")
+        """  
 
-        self.tower = loader.loadModel("models/attack_tower")
-        self.tower.setPos(141.016, 0.440607, 0)
-        self.tower.setScale(2.0)
-        self.tower.reparentTo(render)
+        self.left_atk_tower = loader.loadModel("models/attack_tower")
+        self.left_def_tower = loader.loadModel("models/defence_tower")
+        self.right_atk_tower = loader.loadModel("models/attack_tower")
+        self.right_def_tower = loader.loadModel("models/defence_tower")
+        self.money_cp = loader.loadModel("models/money_point")
+        
+        self.left_atk_tower.setPos(141.016, 0.440607, 0)
+        self.left_def_tower.setPos(210.984, 115.005, 0)
+        self.right_atk_tower.setPos(-149.953, 0.674369, 0)
+        self.right_def_tower.setPos(-210.771, 113.753, 0)
+        self.money_cp.setPos(-0.903916, 11.3765, 0)
+        
+        self.left_atk_tower.setScale(2.0)
+        self.right_atk_tower.setScale(2.0)
+        self.left_def_tower.setScale(2.0)
+        self.right_def_tower.setScale(2.0)
+        self.money_cp.setScale(2.0)
+        
+        self.left_atk_tower.reparentTo(render)
+        self.right_atk_tower.reparentTo(render)
+        self.left_def_tower.reparentTo(render)
+        self.right_def_tower.reparentTo(render)
+        self.money_cp.reparentTo(render)
         
         self.environ.reparentTo(render)
-        #self.swordLeft.reparentTo(render)
+        """
+        self.swordLeft.reparentTo(render)
         self.swordRight.reparentTo(render)
         self.shieldLeft.reparentTo(render)
         self.shieldRight.reparentTo(render)
         self.money.reparentTo(render)
+        """
         
         self.environ.setPos(0,0,0)
         self.environ.setH(90)
-        #self.swordLeft.setH(90)
+        """
+        self.swordLeft.setH(90)
         self.swordRight.setH(90)
         self.shieldLeft.setH(90)
         self.shieldRight.setH(90)
         self.money.setH(90)
+        """
 
         """
         mySound = loader.loadSfx("sound/Retribution.mp3")
