@@ -36,11 +36,11 @@ class World(DirectObject):
         self.cManager.sendRequest(Constants.CMSG_AUTH, [self.username, type, factionId])
 
         # Create control points
-        self.cpList[1] = BasicControlPoint(1, -23.1, -137.9, 0, 10, RED)
-        self.cpList[2] = BasicControlPoint(2, 110.6, -255.6, 0, 10, RED)
-        self.cpList[3] = BasicControlPoint(3, 7.7, -14.8, 0, 10, RED)
-        self.cpList[4] = BasicControlPoint(4, -1.1, 134.3, 0, 10, BLUE)
-        self.cpList[5] = BasicControlPoint(5, 94.1, 197.3, 0, 10, BLUE)
+        self.cpList[1] = BasicControlPoint(1, 208.306, 75.0934, 0, 10, RED)
+        self.cpList[2] = BasicControlPoint(2, 141.016, 0.440607, 0, 10, RED)
+        self.cpList[3] = BasicControlPoint(3, -0.766843, 9.40588, 0, 10, RED)
+        self.cpList[4] = BasicControlPoint(4, -210.771, 113.753, 0, 10, BLUE)
+        self.cpList[5] = BasicControlPoint(5, -149.953, 0.674369, 0, 10, BLUE)
 
         taskMgr.doMethodLater(0.1, self.refresh, "heartbeat")
         taskMgr.doMethodLater(1, self.CPHandler, 'CPHandler')
