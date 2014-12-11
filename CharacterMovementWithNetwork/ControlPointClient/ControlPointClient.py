@@ -67,6 +67,7 @@ class World(DirectObject):
                     if cp.timer == 0:
                         print("CP [", cp.id, "] taken by Blue")
                         cp.factionId = BLUE
+                        main.miniMap.changeTowerColor("tower"+cp.id, '/CharacterClient/models/tower_blue.png')
                         #main.controlNpc.switchControl(cp.id)
                         self.cManager.sendRequest(Constants.CMSG_NPCDEATH, [cp.id])
                         
@@ -83,6 +84,7 @@ class World(DirectObject):
                     if cp.timer == 30:
                         print("CP [", cp.id, "] taken by Red")
                         cp.factionId = RED
+                        main.miniMap.changeTowerColor("tower"+cp.id, '/CharacterClient/models/tower_red.png')
                         #main.controlNpc.switchControl(cp.id)
                 else:
                     cp.timer = 0
