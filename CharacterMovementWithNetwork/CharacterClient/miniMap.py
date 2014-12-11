@@ -126,7 +126,7 @@ class miniMap(object):
             ax = (MAP_BX - (getX))/MAP_BX
             x = -MAP_SCALEX+(ax*MAP_SCALEX)
 
-        self.tower_ = OnscreenImage(image=sef.towerImage, pos=(x, 0, y), 
+        self.tower_ = OnscreenImage(image=self.towerImage, pos=(x, 0, y), 
                                  scale=(towerScale*MAP_SCALEY, 1, towerScale*MAP_SCALEX))
         self.tower_.reparentTo(self.map)
         self.tower_.setTransparency(1)
