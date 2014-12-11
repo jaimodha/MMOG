@@ -58,7 +58,7 @@ class ResponseLogin(ServerResponse):
                                     main.characters[self.username] = Axeman(self.username, self.faction)
                                     
 			if main.player._team == self.faction:
-                                    main.miniMap.setTeamMate(self.username, 0.035, main.characters[self.username]._character.getX(), main.characters[self.username]._character.getY())
+                                    main.miniMap.setTeamMate(self.username, 0.06, main.characters[self.username]._character.getX(), main.characters[self.username]._character.getY())
                                     
                         main.characters[self.username]._character.reparentTo(render)
                         main.characters[self.username]._character.setScale(.4)
