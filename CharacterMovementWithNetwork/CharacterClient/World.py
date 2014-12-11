@@ -15,6 +15,12 @@ from direct.interval.IntervalGlobal import Parallel
 from direct.interval.ActorInterval import ActorInterval
 from panda3d.core import Point3
 
+from panda3d.core import loadPrcFileData
+loadPrcFileData("", "audio-library-name p3fmod_audio")
+ 
+import direct.directbase.DirectStart
+from panda3d.core import FilterProperties
+
 #from Character import Character
 from Swordsman import Swordsman
 from Axeman import Axeman
@@ -67,6 +73,14 @@ class World(DirectObject):
         self.shieldLeft.setH(90)
         self.shieldRight.setH(90)
         self.money.setH(90)
+
+        mySound = loader.loadSfx("sound/Retribution.mp3")
+        mySound.setLoop(True)
+        mySound.play()
+
+        fp = FilterProperties()
+        #fp.addReverb(0.6, 0.5, 0.1, 0.1, 0.1)
+        base.sfxManagerList[0].configureFilters(fp)
         
         ## swordsmanStartPos = self.environ.find("**/start_point").getPos()
         ## self.player = Swordsman("Swordsman", 0)
@@ -182,20 +196,53 @@ class World(DirectObject):
         
         if self.player._is_moving == 2:
             if self.player.get_team()==0:
+                # position when killed
+                dead_pos = self.player._character.getPos()
+                """
                 self.cManager.sendRequest(Constants.CMSG_MOVE, [254.271, 6.72015, 0, self.player._character.getH(), 2])
                 self.player._character.setPos(254.271, 6.72015, 0)
-                # Move this code to a spawn fucntion
-                #self.player._is_moving = False
-                #self.player._is_dead = False
-                #self.player.set_health(Swordsman.MAX_HEALTH)
+                """
+                # add respawn logic to CPs
+                cp_distances = {}
+                for cp in self.cpList.values():
+                    if cp.factionId == self.player.get_team():
+                        d = self.distance(cp.x, cp.y, dead_pos.x, dead_pos.y)
+                        cp_distances[cp.id]=d
+                print cp_distances
+
+                if cp_distances:
+                    min_cp_id=min(cp_distances, key=cp_distances.get)
+                    self.cManager.sendRequest(Constants.CMSG_MOVE, [self.cpList[min_cp_id].x, self.cpList[min_cp_id].y, self.cpList[min_cp_id].z, self.player._character.getH(), 2])
+                    self.player._character.setPos(self.cpList[min_cp_id].x, self.cpList[min_cp_id].y, self.cpList[min_cp_id].z)
+                else:
+                    self.cManager.sendRequest(Constants.CMSG_MOVE, [254.271, 6.72015, 0, self.player._character.getH(), 2])
+                    self.player._character.setPos(254.271, 6.72015, 0)
+
                 if isinstance(self.player, Swordsman):
                     self.cManager.sendRequest(Constants.CMSG_HEALTH, [self.player.get_name(), (-1)*int(Swordsman.MAX_HEALTH)])
                 elif isinstance(self.player, Axeman):
                     self.cManager.sendRequest(Constants.CMSG_HEALTH, [self.player.get_name(), (-1)*int(Axeman.MAX_HEALTH)])
-                #self.player.hb.setValue(self.player.get_health())
             elif self.player.get_team()==1:
+                """
                 self.cManager.sendRequest(Constants.CMSG_MOVE, [-268.27, 8.0602, 0, self.player._character.getH(), 2])
                 self.player._character.setPos(-268.27, 8.0602, 0)
+                """
+
+                cp_distances = {}
+                for cp in self.cpList.values():
+                    if cp.factionId == self.player.get_team():
+                        d = self.distance(cp.x, cp.y, dead_pos.x, dead_pos.y)
+                        cp_distances[cp.id]=d
+                print cp_distances
+
+                if cp_distances:
+                    min_cp_id=min(cp_distances, key=cp_distances.get)
+                    self.cManager.sendRequest(Constants.CMSG_MOVE, [self.cpList[min_cp_id].x, self.cpList[min_cp_id].y, self.cpList[min_cp_id].z, self.player._character.getH(), 2])
+                    self.player._character.setPos(self.cpList[min_cp_id].x, self.cpList[min_cp_id].y, self.cpList[min_cp_id].z)
+                else:
+                    self.cManager.sendRequest(Constants.CMSG_MOVE, [-268.27, 8.0602, 0, self.player._character.getH(), 2])
+                    self.player._character.setPos(-268.27, 8.0602, 0)
+
                 if isinstance(self.player, Swordsman):
                     self.cManager.sendRequest(Constants.CMSG_HEALTH, [self.player.get_name(), (-1)*int(Swordsman.MAX_HEALTH)])
                 elif isinstance(self.player, Axeman):
