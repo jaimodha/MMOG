@@ -105,7 +105,6 @@ class World(DirectObject):
         self.money.setH(90)
         """
 
-        """
         mySound = loader.loadSfx("sound/Retribution.mp3")
         mySound.setLoop(True)
         mySound.play()
@@ -113,7 +112,6 @@ class World(DirectObject):
         fp = FilterProperties()
         #fp.addReverb(0.6, 0.5, 0.1, 0.1, 0.1)
         base.sfxManagerList[0].configureFilters(fp)
-        """
         
         ## swordsmanStartPos = self.environ.find("**/start_point").getPos()
         ## self.player = Swordsman("Swordsman", 0)
