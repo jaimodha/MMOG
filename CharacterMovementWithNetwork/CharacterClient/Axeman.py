@@ -15,9 +15,9 @@ class Axeman(Character):
     BASIC_ATK_DMG = 12
     SPECIAL_ATK_DMG = 40
     MAX_HEALTH = 120
-    ATK_RANGE = 3
+    ATK_RANGE = 8
     MOVE_SPEED = 8
-    FOV = 45
+    FOV = 60
     
     def __init__(self, *args):
         super(Axeman, self).__init__(*args)

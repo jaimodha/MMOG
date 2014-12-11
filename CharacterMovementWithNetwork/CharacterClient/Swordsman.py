@@ -11,13 +11,13 @@ from direct.interval.IntervalGlobal import Func
 from HealthBar import HealthBar
 
 class Swordsman(Character):
-	ATK_RANGE = 3
+	ATK_RANGE = 8
 	BASIC_ATK_DMG = 15
 	SPECIAL_ATK_DMG = 30
 	MOVE_SPEED = 10
 	CHARGE_SPEED = 15
 	MAX_HEALTH = 100
-	FOV = 45
+	FOV = 60
 
 	def __init__(self, *args):
 		super(Swordsman, self).__init__(*args)
