@@ -1,0 +1,57 @@
+Central island
+x, y, z: (14.2, 23.4, 0)
+x, y, z: (22.2, 13.0, 0)
+x, y, z: (-11.6, 26.8, 0)
+x, y, z: (-22.3, -18.5, 0)
+
+Left island
+x, y, z: (86.0, -93.6, 0)
+x, y, z: (102.6, -241.2, 0)
+x, y, z: (-60.9, -138.8, 0)
+x, y, z: (-89.4, -115.7, 0)
+
+
+Right island
+x, y, z: (112.1, 135.3, 0)
+x, y, z: (19.8, 118.3, 0)
+x, y, z: (96.9, 337.8, 0)
+x, y, z: (103.2, 339.0, 0)
+
+Left bridge
+x, y, z: (5.7, -25, 0)
+x, y, z: (-3.4, -52.4, 0)
+x, y, z: (-11, -120, 0)
+x, y, z: (-6.7.2, -119.9, 0)
+
+
+Right bridge
+x, y, z: (2.7, 24.4, 0)
+x, y, z: (-2.6, 21.8, 0)
+x, y, z: (-1.2, 71.9, 0)
+x, y, z: (-3.4, -73.3, 0)
+
+
+Money control point
+x, y, z: (7.7, -14.8, 0)
+
+Left attack control point
+x, y, z: (-23.1, -137.9, 0)
+
+Left defense control point
+x, y, z: (110.6, -225.6, 0)
+
+right attack control point
+x, y, z: (-1.1, 134.3, 0)
+
+right defense control point
+x, y, z: (94.1, 197.3, 0)
+
+Central tower
+x, y, z: (-20.2, -12,4, 0)
+
+x, y, z: (0.3, -6.5, 0)
+
+x, y, z: (-1.3, 1.4, 0)
+
+x, y, z: (-20.8, 10.3, 0)
+
